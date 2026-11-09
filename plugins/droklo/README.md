@@ -15,6 +15,17 @@ It bundles:
   shopping lists with store hand-off.
 - **Skill `droklo-coach`**: client onboarding, templates and locked targets,
   weekly reviews, commenting, scope of practice, practice recipe library.
+- **Skill `droklo-setup`**: an interview, a few questions at a time, that fills
+  in the household profile (allergies and diets, meal rhythm, tastes, kitchen,
+  recipe sources and chefs, shopping, goals). Droklo tracks the progress in
+  `get_context.setup` and in the web app.
+- **Hook `hooks/hooks.json`** (Claude Code and Cowork; claude.ai chat ignores
+  plugin hooks): on session start, `hooks/check-update.sh` compares this
+  plugin's version with `https://www.droklo.com/downloads/marketplace.json`
+  (at most once a day) and, when a newer one is out, tells the user how to
+  update. Silent otherwise; `DROKLO_NO_UPDATE_CHECK=1` turns it off. On every
+  surface the skills also report their version to `get_context`, and the
+  server's guidance says when an update is due.
 
 ## Install on claude.ai and the Claude apps
 
@@ -50,7 +61,9 @@ coaches) in **Customize → Skills**.
 Droklo's hosted marketplace works too:
 `/plugin marketplace add https://www.droklo.com/downloads/marketplace.json`.
 
-Then run `/mcp`, pick `droklo` and sign in. Ask, for example, "Plan our
+Then run `/mcp`, pick `droklo` and sign in. Claude Code does not update
+third-party marketplaces by itself: under `/plugin` → Marketplaces → droklo,
+select **Enable auto-update**. Ask, for example, "Plan our
 dinners for next week" or "Log my lunch".
 
 From a checkout of this repository (development):

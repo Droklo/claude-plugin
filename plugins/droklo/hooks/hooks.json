@@ -1,0 +1,17 @@
+{
+  "description": "Droklo: says when a newer Droklo plugin is out (at most once a day; silent otherwise).",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/check-update.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
