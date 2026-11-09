@@ -1,0 +1,16 @@
+{
+  "name": "droklo",
+  "owner": {
+    "name": "Droklo",
+    "url": "https://www.droklo.com"
+  },
+  "description": "Droklo for Claude: the Droklo MCP connector plus the droklo and droklo-coach skills.",
+  "plugins": [
+    {
+      "name": "droklo",
+      "source": "./plugins/droklo",
+      "description": "Meal planning, recipe capture, meal logs, shopping lists and nutrition coaching with Droklo, the household nutrition system of record. Bundles the Droklo MCP connector and the droklo and droklo-coach skills.",
+      "category": "productivity"
+    }
+  ]
+}

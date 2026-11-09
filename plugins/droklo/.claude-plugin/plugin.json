@@ -1,0 +1,24 @@
+{
+  "name": "droklo",
+  "displayName": "Droklo",
+  "version": "0.2.1",
+  "description": "Meal planning, recipe capture, meal logs, shopping lists and nutrition coaching with Droklo, the household nutrition system of record. Bundles the Droklo MCP connector and the droklo and droklo-coach skills.",
+  "author": {
+    "name": "Droklo",
+    "url": "https://www.droklo.com"
+  },
+  "homepage": "https://www.droklo.com",
+  "privacyPolicyUrl": "https://www.droklo.com/privacy",
+  "repository": "https://github.com/egidijukas/droklo-claude-plugin",
+  "license": "LicenseRef-Proprietary",
+  "icon": "assets/icon.png",
+  "keywords": [
+    "nutrition",
+    "meal-planning",
+    "recipes",
+    "shopping-list",
+    "meal-log",
+    "coaching",
+    "mcp"
+  ]
+}
