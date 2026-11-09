@@ -18,7 +18,9 @@ that is not your client gets `FORBIDDEN`.
 | A recipe in their household library | `{"type": "recipe", "id": "<recipe id>"}` | Tweaks to a recipe they cook often. |
 
 `kind`: `"comment"` for feedback, `"question"` when you need an answer from the
-client (it shows as open until answered or resolved).
+client. A question stays open for the client until the thread is resolved.
+It also works as a reply (`parentId`): the thread then counts as a question
+from whoever asked last.
 
 ## Tone
 

@@ -69,9 +69,9 @@ Tuesday dinner "Chicken curry" (`pe_tue`).
    none). Ask for a rating or feeling only if
    the user volunteered one or seems open to it (see
    logging-and-feedback.md).
-5. Shopping: a swap inside one list's date range changes nothing. If an entry
-   moved into or out of the range of `activeShoppingList`, offer
-   `refresh_shopping_list`.
+5. Shopping: Droklo already updated any active list covering Monday or
+   Tuesday. If the result's `shoppingLists` shows changes, mention them (see
+   shopping.md); a swap inside one list's range usually changes nothing.
 6. Reply: "Done: chicken curry is now Monday's dinner and logged for you; fish
    tacos moved to Tuesday."
 
@@ -88,7 +88,8 @@ Tuesday dinner "Chicken curry" (`pe_tue`).
    ```
 4. Check the new dish against the attendees' restrictions and the weekly rules
    (replacing the only fish meal may break "fish twice a week": say so).
-5. Offer `refresh_shopping_list` when a list covers Friday.
+5. If `shoppingLists` in the result shows changes (a list covers Friday),
+   tell the user what was added, removed or needs rechecking.
 
 ## Skip a meal
 
@@ -96,8 +97,8 @@ Tuesday dinner "Chicken curry" (`pe_tue`).
 
 - Ask: move it (ingredients are bought) or drop it? If move (say to
   Thursday): `move_plan_entry {"id": "pe_wed", "date": "2026-11-12"}`.
-- If drop, confirm, then `delete_plan_entries {"ids": ["pe_wed"]}` and offer
-  `refresh_shopping_list`.
+- If drop, confirm, then `delete_plan_entries {"ids": ["pe_wed"]}` and tell
+  the user what its `shoppingLists` says left the list.
 - If they will eat something easy instead and want it tracked, add or log it
   (below).
 
@@ -115,8 +116,8 @@ Tuesday dinner "Chicken curry" (`pe_tue`).
    rough estimate with `"estimated": true`, and tell the user it is an
    estimate. Without either, leave nutrition out.
 2. Ask what happens to the planned stir-fry: move it to another day
-   (ingredients bought) or delete it. Then act and offer a shopping list
-   refresh if a list covers the range.
+   (ingredients bought) or delete it. Then act; the shopping list follows by
+   itself, so just report its `shoppingLists` changes.
 
 ## Leftovers
 
@@ -138,17 +139,19 @@ eats it, and it adds nothing to shopping lists.
     "dishName": "Chili (leftovers)", "recipeId": "rc_bean_chili", "servings": 0,
     "notes": "Leftovers from Tue dinner"}]}
   ```
-  Offer `refresh_shopping_list`: the extra servings on the cooking entry
-  change quantities.
+  The list covering the cooking day updates itself; report the larger
+  quantities from `shoppingLists` (and any `recheck` items).
 - Turning a normal entry into leftovers ("we'll just eat Monday's leftovers
   on Wednesday"): `update_plan_entry` with `{"recipeId": <Monday's recipe>,
-  "servings": 0, "dishName": "… (leftovers)"}`, then offer a refresh.
+  "servings": 0, "dishName": "… (leftovers)"}`; its ingredients leave the
+  list by themselves (report `shoppingLists`).
 
 ## Who eats changes
 
 "Tomas is away Thursday" → `update_plan_entry {"id": "pe_thu", "patch":
-{"attendeeIds": ["fm_ana", "fm_ema"]}}`. Shopping quantities follow attendees,
-so offer a refresh. Do not archive a member who is only away.
+{"attendeeIds": ["fm_ana", "fm_ema"]}}`. Shopping quantities follow attendees
+and the list updates itself; report `shoppingLists`. Do not archive a member
+who is only away.
 
 ## Locked or forbidden
 

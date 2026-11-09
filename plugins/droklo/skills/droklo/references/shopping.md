@@ -14,8 +14,8 @@ marks. Lists sync live between the web app, other family members and agents.
 2. Resolve the range: Friday `2026-11-13` to Sunday `2026-11-15`.
 3. Look for an existing list first:
    `list_shopping_lists {"status": "active"}`. If one already covers this
-   range, use it (and `refresh_shopping_list` it) instead of creating a
-   duplicate; ask if unsure.
+   range, use it instead of creating a duplicate (it is already up to date
+   with the plan); ask if unsure.
 4. Check the plan: `get_plan {"from": "2026-11-13", "to": "2026-11-15"}`.
    Entries without `recipeId` (eating out, dishes planned by name only) and
    leftovers entries (`servings: 0`) add nothing. Tell the user which meals
@@ -31,9 +31,11 @@ marks. Lists sync live between the web app, other family members and agents.
      `update` if the user knows it;
    - pantry staples (oil, salt, spices, flour, rice): ask once "Do you already
      have any of these?" and **check** the ones they have (do not remove them:
-     plan-derived items come back on refresh, checked marks survive it).
-7. Show the list grouped by category in the user's units (below) and offer the
-   next step: add extras, export, or send to a store.
+     plan-derived items come back when the plan changes, checked marks survive
+     unless more is needed).
+7. Show the list grouped by category in the user's units (below) with its
+   `url` (opens it in Droklo) and offer the next step: add extras, export, or
+   send to a store.
 
 ## Change items
 
@@ -61,23 +63,47 @@ update_shopping_items {
 - "I bought the milk and eggs" → `get_shopping_list {"listId": …}`, match the
   names, then `check` those ids. Ask when a name matches several items.
 - `remove` is for manual items the user no longer wants. A removed
-  plan-derived item can return on refresh; to drop it for good, change the
-  plan or check it.
+  plan-derived item comes back with the next plan change; to drop it for good,
+  change the plan or check it.
 
 ## Keep the list in sync with the plan
 
-After any plan change (add, move, swap, replace, delete, attendees or
-servings) inside a list's date range, or an entry moving into or out of it,
-offer:
+Droklo keeps active lists in step with the plan by itself. Every plan tool
+(`add_plan_entries`, `update_plan_entry`, `move_plan_entry`,
+`swap_plan_entries`, `delete_plan_entries`) and every plan change in the web
+app refreshes the active lists whose range contains a date it touched (the old
+and the new date of a move). Do not call `refresh_shopping_list` after them.
+
+The plan tool's result says what happened in `shoppingLists` (empty when no
+active list covers the dates):
 
 ```
-refresh_shopping_list {"listId": "sl_weekend"}
+"shoppingLists": [{
+  "listId": "sl_weekend", "name": "Weekend 13–15 Nov", "url": "https://www.droklo.com/shopping/sl_weekend",
+  "added":   [{"itemId": "si_cream", "name": "Cream", "quantity": "200 ml"}],
+  "removed": [{"name": "Feta", "quantity": "150 g", "wasChecked": false}],
+  "changed": [{"itemId": "si_pasta", "name": "Pasta", "before": "300 g", "after": "450 g"}],
+  "recheck": [{"itemId": "si_chicken", "name": "Chicken breast", "before": "500 g", "after": "750 g"}]
+}]
 ```
 
-Refresh recomputes plan-derived items for the range, keeps manual items, and
-keeps checked items that are still needed. Tell the user what changed
-(new or removed items, quantity changes) if the result shows it. Leftovers
-entries (`servings: 0`) never add items.
+Tell the user in a line or two what changed, with the list's `url`. Name every
+`recheck` item: the user had checked it (bought it or has it), but the plan
+now needs clearly more (at least 20 % and 10 g or ml more), so Droklo
+unchecked it and it shows again with the new total. Ask whether they already
+have the extra amount; if they do, `check` it again. Smaller top-ups,
+quantity drops and pantry staples (`oils`, `spices`) stay checked.
+
+Moving or swapping a meal into the list's dates puts its ingredients in
+`added` as still to buy, even when the user already has them (for example,
+they cooked tomorrow's dinner tonight). If the user said they have them,
+`check` those items right away.
+
+Call `refresh_shopping_list {"listId": …}` yourself only when something other
+than the plan changed what a list needs: a planned recipe's ingredients or
+portions (`save_recipe`), or a family member archived or back. Its result has
+the same `changes`. Leftovers entries (`servings: 0`) never add items: the
+cooking entry carries the extra servings.
 
 ## Export
 

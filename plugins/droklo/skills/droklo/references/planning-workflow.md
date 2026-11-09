@@ -173,11 +173,13 @@ a separate `save_recipe` first, so you can dedupe and check the saved result.
 
 ## 8. Report and follow up
 
-- List what was added (dates, meals, dishes) and anything you could not fill.
+- List what was added (dates, meals, dishes) and anything you could not fill,
+  each meal with its `url` (opens it in Droklo).
 - Mention estimated nutrition as estimated.
-- If `get_context.activeShoppingList` (or `list_shopping_lists`) covers these
-  dates, offer `refresh_shopping_list`; otherwise offer `create_shopping_list`
-  for the planned range (see shopping.md).
+- If the result's `shoppingLists` is not empty, an active list covering these
+  dates has already taken in the new meals: say what it added, with the list's
+  `url`. Otherwise offer `create_shopping_list` for the planned range (see
+  shopping.md).
 
 ## Variations
 
