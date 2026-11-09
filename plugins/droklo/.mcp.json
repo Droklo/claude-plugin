@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "droklo": {
+    "Droklo": {
       "type": "http",
       "url": "https://www.droklo.com/api/mcp"
     }

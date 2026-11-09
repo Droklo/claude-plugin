@@ -6,7 +6,7 @@ the Claude desktop and mobile apps, in Cowork and in Claude Code.
 
 It bundles:
 
-- **MCP connector** `droklo` → `https://www.droklo.com/api/mcp` (Streamable
+- **MCP connector** `Droklo` → `https://www.droklo.com/api/mcp` (Streamable
   HTTP, OAuth). You sign in with your Droklo account the first time you
   connect it.
 - **Skill `droklo`**: meal planning for any horizon, web recipe search,
@@ -50,7 +50,7 @@ coaches) in **Customize → Skills**.
 Droklo's hosted marketplace works too:
 `/plugin marketplace add https://www.droklo.com/downloads/marketplace.json`.
 
-Then run `/mcp`, pick `droklo` and sign in. Ask, for example, "Plan our
+Then run `/mcp`, pick `Droklo` and sign in. Ask, for example, "Plan our
 dinners for next week" or "Log my lunch".
 
 From a checkout of this repository (development):
