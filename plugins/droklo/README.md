@@ -19,8 +19,9 @@ It bundles:
 ## Install on claude.ai and the Claude apps
 
 The plugin is published to the public marketplace repository
-[egidijukas/droklo-claude-plugin](https://github.com/egidijukas/droklo-claude-plugin),
-so Claude keeps it up to date:
+[egidijukas/droklo-claude-plugin](https://github.com/egidijukas/droklo-claude-plugin).
+New versions arrive when you check the marketplace for updates (or
+automatically, if the repository owner turned on **Sync automatically**):
 
 1. In Claude, open **Customize → Plugins**, select **Add → Add marketplace →
    Add from a repository**, enter `egidijukas/droklo-claude-plugin` and select

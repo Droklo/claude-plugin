@@ -23,7 +23,8 @@ It bundles:
    keep the suggested settings, then sign in to Droklo and allow access.
 4. In a new chat, ask "What's for dinner this week?"
 
-Claude keeps the plugin up to date from this repository.
+To get a new version, open this marketplace in **Customize → Plugins** and check
+for updates.
 
 ## Install in Claude Code
 
