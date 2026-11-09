@@ -19,12 +19,12 @@ It bundles:
 ## Install on claude.ai and the Claude apps
 
 The plugin is published to the public marketplace repository
-[egidijukas/droklo-claude-plugin](https://github.com/egidijukas/droklo-claude-plugin).
+[Droklo/claude-plugin](https://github.com/Droklo/claude-plugin).
 New versions arrive when you check the marketplace for updates (or
 automatically, if the repository owner turned on **Sync automatically**):
 
 1. In Claude, open **Customize → Plugins**, select **Add → Add marketplace →
-   Add from a repository**, enter `egidijukas/droklo-claude-plugin` and select
+   Add from a repository**, enter `Droklo/claude-plugin` and select
    **Sync**.
 2. Install **Droklo** from the marketplace.
 3. Open the Droklo plugin, go to its **Connectors** tab, select **Connect**,
@@ -43,7 +43,7 @@ coaches) in **Customize → Skills**.
 ## Install in Claude Code
 
 ```
-/plugin marketplace add egidijukas/droklo-claude-plugin
+/plugin marketplace add Droklo/claude-plugin
 /plugin install droklo@droklo
 ```
 

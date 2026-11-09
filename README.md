@@ -17,7 +17,7 @@ It bundles:
 ## Install on claude.ai and the Claude apps
 
 1. Open **Customize → Plugins**, select **Add → Add marketplace → Add from a
-   repository**, enter `egidijukas/droklo-claude-plugin` and select **Sync**.
+   repository**, enter `Droklo/claude-plugin` and select **Sync**.
 2. Install **Droklo** from the marketplace.
 3. Open the Droklo plugin, go to its **Connectors** tab, select **Connect**,
    keep the suggested settings, then sign in to Droklo and allow access.
@@ -29,7 +29,7 @@ for updates.
 ## Install in Claude Code
 
 ```
-/plugin marketplace add egidijukas/droklo-claude-plugin
+/plugin marketplace add Droklo/claude-plugin
 /plugin install droklo@droklo
 ```
 
