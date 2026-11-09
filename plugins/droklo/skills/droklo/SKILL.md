@@ -4,7 +4,7 @@ description: Work with Droklo, the household's nutrition system of record, throu
 license: Proprietary
 metadata:
   author: droklo
-  version: "0.2.3"
+  version: "0.2.4"
 ---
 
 # Droklo

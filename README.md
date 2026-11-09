@@ -33,7 +33,7 @@ for updates.
 /plugin install droklo@droklo
 ```
 
-Then run `/mcp`, choose `Droklo` and select **Authenticate**.
+Then run `/mcp`, choose `droklo` and select **Authenticate**.
 
 ## Privacy
 

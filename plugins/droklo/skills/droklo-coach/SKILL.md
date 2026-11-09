@@ -4,7 +4,7 @@ description: Coaching workflows in Droklo for nutrition coaches, personal traine
 license: Proprietary
 metadata:
   author: droklo
-  version: "0.2.3"
+  version: "0.2.4"
 ---
 
 # Droklo for coaches
