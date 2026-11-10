@@ -65,9 +65,6 @@ dinners for next week" or "Log my lunch".
 If you already added Droklo as an MCP server yourself (`claude mcp add`), you
 will see its tools twice; remove one of the two.
 
-Droklo also offers personal access tokens for clients without OAuth; see
-Settings → Connect your AI assistant in Droklo.
-
 ## ChatGPT
 
 Add the MCP server as an app/connector (developer mode). The same rules reach
