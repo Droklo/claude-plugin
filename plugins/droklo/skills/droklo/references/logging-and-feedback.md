@@ -40,7 +40,7 @@ them to comment on a log.
 
 ### What and when
 
-- **Planned meal:** pass `planEntryId`; dish and recipe come from the entry
+- **Planned meal:** give `planEntryId`; dish and recipe come from the entry
   and the entry is marked cooked.
 - **Planned leftovers** (an entry with the recipe and `servings: 0`): log it
   like any planned meal with `planEntryId`; nutrition comes from the recipe.

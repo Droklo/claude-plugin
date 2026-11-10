@@ -33,7 +33,7 @@ slot (sortOrder), ask which one if it is not obvious.
   recipe, attendees, comments, logs) stays with each entry.
 - `move_plan_entry {"id": A, "date": "…", "mealType": "…"}` moves one entry;
   `mealType` and `sortOrder` are optional. If the target slot already has an
-  entry, the moved one is appended after it (both stay; pass `sortOrder` to
+  entry, the moved one is appended after it (both stay; give `sortOrder` to
   put it first). Ask whether the other one should move or go.
 - `update_plan_entry {"id": A, "patch": {…}}` changes fields in place
   (`dishName`, `recipeId`, `sideRecipeId`, `notes`, `attendeeIds`,

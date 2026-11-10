@@ -8,13 +8,8 @@
     "url": "https://www.droklo.com"
   },
   "homepage": "https://www.droklo.com",
-  "documentationUrl": "https://www.droklo.com/guide",
-  "supportUrl": "https://www.droklo.com/support",
-  "privacyPolicyUrl": "https://www.droklo.com/privacy",
-  "termsOfServiceUrl": "https://www.droklo.com/terms",
   "repository": "https://github.com/Droklo/claude-plugin",
   "license": "LicenseRef-Proprietary",
-  "icon": "assets/icon.png",
   "keywords": [
     "nutrition",
     "meal-planning",
