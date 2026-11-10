@@ -19,13 +19,9 @@ It bundles:
   in the household profile (allergies and diets, meal rhythm, tastes, kitchen,
   recipe sources and chefs, shopping, goals). Droklo tracks the progress in
   `get_context.setup` and in the web app.
-- **Hook `hooks/hooks.json`** (Claude Code and Cowork; claude.ai chat ignores
-  plugin hooks): on session start, `hooks/check-update.sh` compares this
-  plugin's version with `https://www.droklo.com/downloads/marketplace.json`
-  (at most once a day) and, when a newer one is out, tells the user how to
-  update. Silent otherwise; `DROKLO_NO_UPDATE_CHECK=1` turns it off. On every
-  surface the skills also report their version to `get_context`, and the
-  server's guidance says when an update is due.
+
+The plugin has no hooks and runs no code. The skills report their version to
+`get_context`, and the server's guidance says when an update is due.
 
 ## Install on claude.ai and the Claude apps
 
@@ -102,7 +98,6 @@ plugins/droklo/
 ├── .claude-plugin/plugin.json   manifest (name, version, metadata)
 ├── .mcp.json                    the Droklo MCP connector (HTTP)
 ├── assets/icon.png              1024 px plugin icon
-├── hooks/                       SessionStart update check (Claude Code, Cowork)
 ├── README.md
 └── skills/                      GENERATED copy of agent-skills/*
     ├── droklo/
@@ -143,13 +138,8 @@ with `..` are rejected and installed plugins are copied to a cache), so
   lists and comments. Each tool says whether it only reads, changes or
   deletes data, so Claude can ask before destructive actions.
 - The **skills** are instructions only; they run no code.
-- The **hook** (Claude Code and Cowork only) runs `hooks/check-update.sh`
-  with `sh` at session start. At most once a day it downloads
-  `https://www.droklo.com/downloads/marketplace.json` with `curl` to read the
-  latest version number, caches it in the plugin's data folder and prints a
-  one-line note when an update is out. It sends nothing about you or your
-  household, reads only its own `plugin.json` and cache, and changes no settings.
-  `DROKLO_NO_UPDATE_CHECK=1` turns it off.
+- There are **no hooks, scripts or binaries**. The plugin makes no network
+  calls of its own and stores nothing on your machine.
 - Droklo itself calls no AI model and doesn't fetch web pages for you.
 
 ## Guide and support

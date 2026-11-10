@@ -17,9 +17,9 @@ It bundles:
   profile (allergies, when you eat and cook, what you love, your kitchen,
   favourite recipe sites and chefs, shopping, goals). Say "Set up my Droklo
   profile" to start it.
-- **An update check for Claude Code and Cowork**: at the start of a session
-  it tells you, at most once a day, when a newer Droklo plugin is out. It
-  prints nothing otherwise; set `DROKLO_NO_UPDATE_CHECK=1` to turn it off.
+
+The plugin holds instructions and the connector only: no hooks, scripts or
+binaries.
 
 ## Install on claude.ai and the Claude apps
 
