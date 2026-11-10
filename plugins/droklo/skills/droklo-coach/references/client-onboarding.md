@@ -91,7 +91,7 @@ update_client_targets {"clientId": "fm_john", "dailyProteinG": 160,
 ```
 
 `goals` is short, specific text the client and their agent see. Write it in
-the client's language.
+English.
 
 ## 5. Welcome message
 

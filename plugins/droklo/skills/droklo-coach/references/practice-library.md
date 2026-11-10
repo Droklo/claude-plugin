@@ -49,8 +49,7 @@ Coaches' own recipes (no URL) are welcome: `sourceName` = the practice name,
   nutrition higher, and logs derive nutrition from them.
 - Mark allergens accurately: clients' agents exclude recipes by
   `allergyMarkers`.
-- Name recipes clearly in the language most clients use; add `nameEn` when
-  the name is not English.
+- Name recipes clearly, in English.
 - Deleting a practice recipe (`delete_recipe`, ask first) hides it from all
   clients; plan entries and logs that used it keep their dish names.
 

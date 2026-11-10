@@ -134,7 +134,7 @@ add_comment {"target": {"type": "mealLog", "id": "ml_123"},
   not see a thread about a member they do not coach, so ask about the
   coached member (or without `familyMemberId`). Tell the user if they share
   something sensitive.
-- Write the question in the user's words and language. Do not add your own
+- Write the question in the user's words, in English. Do not add your own
   advice to the question.
 - Do not answer the question yourself on the coach's behalf. You may give
   general information in chat, clearly as your own.

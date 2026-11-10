@@ -33,7 +33,7 @@ from whoever asked last.
   comments. Talk about meals and habits, not weight or appearance.
 - **Within scope:** general wellness only; no diagnosis or treatment claims
   (scope-of-practice.md).
-- **Their language:** write in the client's language, plain words, no
+- **Plain English:** comments are stored in English; plain words, no
   jargon.
 
 Good: "Great job logging every day this week! Your dinners hit your protein

@@ -15,17 +15,17 @@ From `get_context`:
 - **Taste:** `history.liked`, `history.disliked`, recent dishes (avoid repeats).
 - **Where to look:** `favoriteSources[]` (`name`, `url`, `searchHint`) and
   `nutritionRules.searchTips`.
-- **Language and region:** `household.locale` and `timezone`. Search
-  Lithuanian sites in Lithuanian, English sites in English. For US households
-  prefer US sites, US grocery ingredients and US units; for European
-  households prefer metric sites.
+- **Region:** `timezone`. For US households prefer US sites, US grocery
+  ingredients and US units; for European households prefer metric sites. A
+  favourite source may be in another language: search it in its own language,
+  then translate the recipe into English when you save it (recipe-capture.md).
 
 ## Search order
 
 1. **Favorite sources.** For each relevant favorite source, query the site
    directly and add its `searchHint` when present:
    - `site:budgetbytes.com chickpea curry`
-   - `site:beatosvirtuve.lt vištienos troškinys` (Lithuanian site, Lithuanian words)
+   - `site:chefkoch.de kichererbsen curry` (a German site, searched in German)
    If `site:` returns little, try natural phrasing with the source name
    (`chickpea curry budget bytes`) and one or two rewordings before moving on.
 2. **Well-known recipe sites** with tested recipes and structured data.

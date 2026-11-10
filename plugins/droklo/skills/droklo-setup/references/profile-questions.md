@@ -1,7 +1,7 @@
 # Profile questions and where the answers go
 
 Ask in the user's language; the English wording below is a guide, not a
-script. Offer the options as a short lettered list and accept free text.
+script. Save the answers in English. Offer the options as a short lettered list and accept free text.
 Save right after each answer. Ids below are examples (`fm_…`); use the ids
 from `get_context`.
 
@@ -114,7 +114,7 @@ Two turns.
 Turn A:
 
 - "Which cuisines do you cook or order most happily?" (free text: Italian,
-  Thai, Lithuanian, …)
+  Thai, Mexican, …)
 - "Three or four dishes the whole family is always happy to see?"
 - "Anything nobody here likes? Taste only, allergies are already saved."
 
@@ -213,7 +213,7 @@ invitations from this interview. No goals:
 User: "Set up my Droklo profile"
 
 ```
-get_context {"client": "droklo-setup-skill/0.2.6"}
+get_context {"client": "<the client value from SKILL.md>"}
   → setup: {done: 3, total: 9, missing: ["safety", "rhythm", "taste", "kitchen", "sources", "shopping"]}
     members: Maya (fm_maya, you), Ben (fm_ben), Lily (fm_lily)
 ```

@@ -5,6 +5,11 @@ Goal: turn a link, an Instagram post, a photo or pasted text into one clean
 everything and send it. Photos are used only for extraction; Droklo never
 stores them.
 
+Droklo stores recipes in English. When the source is in another language,
+translate the name, description, instructions, ingredient names and notes
+into natural English before saving (metric amounts stay as they are). Keep
+`sourceName` and other proper names as written.
+
 ## Steps
 
 1. **Get the content.**
@@ -28,7 +33,7 @@ stores them.
    the same URL twice updates instead of duplicating.) When updating, send
    only the fields you change: `null` clears a field, and `ingredients`, if
    sent, replaces the whole ingredient list.
-3. **Normalize** ingredients, times and nutrition (rules below).
+3. **Normalize** ingredients, times and nutrition (rules below), in English.
 4. **Save:** `save_recipe {"recipe": {…}}`.
 5. **Confirm** to the user: name, portions, time, kcal and protein per portion
    (say "estimated" when it is), the allergens you marked, and offer to plan it.
@@ -39,15 +44,12 @@ stores them.
 
 | Field | Required | Rule |
 |---|---|---|
-| `name` | yes | Dish name in the source's language, without "recipe", "best", "easy". |
+| `name` | yes | English dish name (translated when the source isn't English), without "recipe", "best", "easy". |
 | `portions` | yes | Number of servings the recipe yields. If the source gives a range ("4–6"), use the lower number. If none, infer from quantities and say so. |
-| `nameEn` | when `name` is not English | English name. |
-| `nameLt` | optional | Lithuanian name, when known. |
 | `sourceUrl` | when there is a URL | Canonical URL (see below). Null for photos and pasted text without a link. |
 | `sourceName` | yes when known | Site, book or creator: "Budget Bytes", "Ottolenghi, Simple", "@creator on Instagram". |
-| `sourceLocale` | recommended | Language of the source, e.g. `"en"`, `"lt"`. |
-| `description` | optional | One or two sentences. |
-| `instructions` | recommended | Numbered steps, one per line. Keep them concise; paraphrase long text. |
+| `description` | optional | One or two sentences, in English. |
+| `instructions` | recommended | Numbered steps in English, one per line. Keep them concise; paraphrase long text. |
 | `imageUrl` | optional | A stable public image URL (page `og:image` or JSON-LD `image`). Never an Instagram or other expiring CDN link, never the user's photo. |
 | `prepTimeMin`, `totalTimeMin` | when given | As stated by the source. |
 | `cookingTimeMin` | recommended | Time to table: hands-on prep plus cooking, excluding passive marinating, rising or chilling (mention those in `instructions`). Used by the time filter. |
@@ -57,7 +59,7 @@ stores them.
 | `isCompleteMeal` | recommended | `true` when protein, a carb and vegetables are all in the dish. |
 | `garnishSuggestion` | for `main-course` | A fitting side ("rice and a green salad"). |
 | `primaryProteinSource` | recommended | One code (`fish`, `poultry`, `red-meat`, `eggs`, `legumes`, `dairy`, `tofu-tempeh`, `nuts-seeds`, `grain-protein`, `none`). |
-| `cuisineTag` | optional | Lowercase English, e.g. `"italian"`, `"mexican"`, `"lithuanian"`. |
+| `cuisineTag` | optional | Lowercase English, e.g. `"italian"`, `"mexican"`, `"thai"`. |
 | `dietTags` | optional | Lowercase tags: diet codes (`vegetarian`, `vegan`, `keto`, `lowcarb`, `mediterranean`) plus `gluten-free`, `dairy-free`, `nut-free` when true for the whole recipe. |
 | `ingredients` | strongly recommended | Structured list (below). |
 | `ingredientsText` | fallback | Free text, only when the ingredients cannot be structured. |
@@ -76,7 +78,7 @@ Each item is a RecipeIngredientInput:
 
 | Field | Rule |
 |---|---|
-| `name` | Ingredient as written in the recipe, in its language, without the amount: `"boneless skinless chicken breasts"`, `"vištienos krūtinėlė"`. |
+| `name` | Ingredient as written in the recipe, in English (translated when needed), without the amount: `"boneless skinless chicken breasts"`. This is the name the shopping list shows. |
 | `canonicalName` | **Lowercase English, singular, generic**: `"chicken breast"`, `"olive oil"`, `"red onion"`, `"canned chickpeas"`. No brands, sizes or preparation words (chopped, large, fresh). Keep a variety when it changes what you buy: `"greek yogurt"` vs `"yogurt"`, `"brown rice"` vs `"white rice"`, `"canned tomatoes"` vs `"tomato"`. Droklo dedupes ingredients and sums shopping lists by this name, so be consistent. |
 | `quantityText` | The original amount: `"2"`, `"1 ½ cups"`, `"2 tbsp"`, `"to taste"`. |
 | `quantityGrams` | The amount converted to grams (table below). Null for "to taste", "a pinch" or when unknown. |
@@ -246,7 +248,7 @@ search_recipes {"query": "lemon chicken orzo", "limit": 5}   → no match
 save_recipe {"recipe": {
   "name": "Lemon Chicken Orzo",
   "sourceUrl": "https://www.example-recipes.com/lemon-chicken-orzo",
-  "sourceName": "Example Recipes", "sourceLocale": "en",
+  "sourceName": "Example Recipes",
   "portions": 4, "prepTimeMin": 10, "cookingTimeMin": 30, "totalTimeMin": 30,
   "nutritionPerPortion": {"caloriesKcal": 520, "proteinG": 41, "carbsG": 52, "fatG": 15},
   "nutritionEstimated": false,

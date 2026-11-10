@@ -107,7 +107,7 @@ already-applied clients keep their values until you apply it again.
 
 ## Goals text
 
-Short, specific and in the client's language: what, how much, by when, and
+Short, specific and in English: what, how much, by when, and
 the main habits. Good: "Reach 75 kg by June (about 0.5 kg a week); protein at
 every meal; 8,000 steps a day." Avoid diagnoses, body shaming and medical
 claims.

@@ -111,7 +111,7 @@ cooking entry carries the extra servings.
 export_shopping_list {"listId": "sl_weekend", "format": "markdown"}
 ```
 
-Returns the list grouped by category in the household's language, as
+Returns the list grouped by category, as
 markdown checkboxes (the default) or `"text"` for plain text, for example to
 paste into a messaging app. Show it as is; do not re-sort.
 

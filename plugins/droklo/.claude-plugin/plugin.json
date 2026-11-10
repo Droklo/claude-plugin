@@ -1,7 +1,7 @@
 {
   "name": "droklo",
   "displayName": "Droklo",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Meal planning, recipe capture, meal logs, shopping lists and nutrition coaching with Droklo, the household nutrition system of record. Bundles the Droklo MCP connector, the droklo, droklo-coach and droklo-setup skills, and a Claude Code hook that tells you when a new version is out.",
   "author": {
     "name": "Droklo",
