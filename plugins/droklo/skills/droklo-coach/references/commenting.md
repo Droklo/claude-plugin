@@ -1,91 +1,68 @@
 # Commenting and answering questions
 
-Comments are how the coach talks to a client about specific meals and days.
-They appear on the client's timeline, in their inbox and to their AI agent.
+Comments show in Droklo only: on the client's plan, in the household
+inbox and through their assistant. No email.
 
-## Where to attach a comment
+## The words are the coach's
 
-Always pass the client's household: `workspaceId: <client.workspace.id>`.
-Comment tools refuse your practice id with `INVALID`, and a `familyMemberId`
-that is not your client gets `FORBIDDEN`.
+1. Show the facts (meal, date, question) and ask what the coach wants
+   to say. If they delegate ("write something encouraging"), draft it.
+2. Word it from their points; add no advice of your own.
+3. Preview: `add_comment {…, "dryRun": true}` → `wouldPost`,
+   `delivery`. Show the text as is and who can read it.
+4. Post on an explicit yes; an edit needs a new yes.
+5. Show `posted` and where a reply will appear (`delivery.repliesAt`).
 
-| About | `target` | Notes |
-|---|---|---|
-| A meal the client ate | `{"type": "mealLog", "id": "<log id>"}` | Best for feedback; `familyMemberId` is inferred. |
-| A planned (future) meal | `{"type": "planEntry", "id": "<entry id>"}` | Suggestions before they cook ("add a side salad"). |
-| A day | `{"type": "day", "date": "YYYY-MM-DD"}` + `familyMemberId` | Daily patterns ("protein was low all day"). |
-| The week or anything general | `{"type": "general"}` + `familyMemberId` | Weekly summary, logging nudges, welcome. |
-| A recipe in their household library | `{"type": "recipe", "id": "<recipe id>"}` | Tweaks to a recipe they cook often. |
+## Where it goes
 
-`kind`: `"comment"` for feedback, `"question"` when you need an answer from the
-client. A question stays open for the client until the thread is resolved.
-It also works as a reply (`parentId`): the thread then counts as a question
-from whoever asked last.
+Always the client's `workspaceId`.
+
+| About | `target` |
+|---|---|
+| A meal eaten | `{"type": "mealLog", "id"}` |
+| A planned meal | `{"type": "planEntry", "id"}` |
+| A day | `{"type": "day", "date"}` + `familyMemberId` |
+| The week, a welcome, a nudge | `{"type": "general"}` + `familyMemberId` |
+| A recipe | `{"type": "recipe", "id"}` |
+
+`kind`: `comment`, or `question` when an answer is needed (stays open
+until resolved). A reply needs only `parentId` (the root id).
 
 ## Tone
 
-- **Specific:** name the meal, the day and the number ("Tuesday's lunch had
-  about 20 g protein").
-- **Actionable:** one or two concrete next steps, not a lecture
-  ("add 150 g Greek yogurt at breakfast").
-- **Warm and brief:** start with what went well; two to four sentences.
-- **Neutral about food:** no "bad food", "cheat meal", guilt or body
-  comments. Talk about meals and habits, not weight or appearance.
-- **Within scope:** general wellness only; no diagnosis or treatment claims
-  (scope-of-practice.md).
-- **Plain English:** comments are stored in English; plain words, no
-  jargon.
+Name the meal and date (weekday from the tool result). What went well
+first; one or two next steps in food; two to four sentences. No
+judging words, guilt or body comments. Numbers only for a client who
+tracks them, never with `numbersHidden`. A reading gets "I saw it",
+nothing more.
 
-Good: "Great job logging every day this week! Your dinners hit your protein
-goal; breakfasts were around 10 g. Want to try eggs or Greek yogurt in the
-mornings this week?"
+> You logged every day, and the dinners were just what we planned.
+> Breakfast is the light spot: want to try eggs or yogurt?
 
-Avoid: "You failed your protein target again. You need to stop eating so
-many carbs."
+## Privacy
 
-## Privacy and visibility
+Every login in the household and the client's assigned specialists
+read a comment (`delivery.visibleTo`; it names members without a
+login). No comment is private: keep weight and health neutral. One
+client per comment. The coach's own remarks go in `set_client_notes`.
 
-- The client's whole household can read comments on their plan, days and
-  logs. Keep sensitive topics (weight, health, emotional eating) neutral, or
-  suggest discussing them privately.
-- You see household-level threads (`general`, `day`, `planEntry`, `recipe`
-  without `familyMemberId`) and threads about your own clients, never
-  threads about other family members.
-- One client per comment. Never mention other clients or compare them.
+## Questions from clients
 
-## Answering client questions
+1. `get_inbox {"onlyUnread": true}`: each thread's `about` gives the
+   dish, date and meal. Show the question; ask what to answer.
+2. Word, preview, post (`parentId`).
+3. `resolve_thread` when fully answered; leave open if you asked
+   back. `mark_read {"threadIds"}` for what the coach saw (notice ids
+   too).
 
-1. Find questions:
-   ```
-   get_inbox {"onlyUnread": true}
-     → threads: [{root: {id: "c_q1", kind: "question", target: {type: "mealLog", id: "ml_456"},
-                  body: "Should I add more rice?", familyMemberId: "fm_john"},
-                  workspace: {id: "ws_smith", …}, unread: true, replies: []}],
-       openQuestionCount: 1
-   ```
-   `list_clients[].openQuestions` also counts them per client.
-2. Read the context of the question (the meal log, the day's totals, the
-   client's targets) before drafting: `get_client_summary` for that date.
-3. Draft the answer for the coach in their voice; post after approval, or at
-   once if the coach dictated the answer:
-   ```
-   add_comment {"workspaceId": "ws_smith",
-     "parentId": "c_q1",
-     "kind": "comment",
-     "body": "Yes, add about half a cup more rice and some edamame; that keeps you in range and should hold you until bedtime."}
-   ```
-   A reply needs only `parentId` = the root comment id (no `target`).
-4. `resolve_thread {"workspaceId": "ws_smith", "threadId": "c_q1"}` when the
-   question is fully answered; it leaves the inbox (skip it if you asked
-   something back).
-5. `mark_read {"threadIds": ["c_q1"]}` for threads you showed the coach.
+Out of scope: a kind referral, in the coach's words.
 
-If a question is outside the coach's scope (medication, symptoms, a medical
-condition), draft a kind referral instead (scope-of-practice.md).
+A household fact the coach cannot write (`FORBIDDEN` names the
+fields): ask the client with a `question` comment.
 
-## Reading comment history
+## Seen, answered, history
 
-`list_comments {"workspaceId": "ws_smith", "target": {"type": "mealLog", "id": "ml_456"}}`
-for one target, or `{"workspaceId": …, "from": "2026-11-02", "to": "2026-11-08"}`
-for all threads with activity in a range. Check earlier threads before
-repeating advice.
+`get_inbox.awaitingReply[]`: the coach's messages without an answer,
+with `seenBy`. Say "seen by … on …, no answer yet", never "ignored".
+Earlier threads: `list_comments {"workspaceId", "familyMemberId"}`;
+check before repeating advice.

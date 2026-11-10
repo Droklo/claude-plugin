@@ -1,182 +1,153 @@
 # Shopping
 
-A shopping list covers any date range. Droklo computes its items from the
-plan entries in that range that have a recipe (portions = attendees or
-`servings`, scaled from the recipe's yield) and keeps manual items and checked
-marks. Lists sync live between the web app, other family members and agents.
+A list covers a date range. Droklo computes it from planned meals with
+a recipe (eaters, guests, `servings`, `additions`) and keeps manual
+items and ticks. Leftovers entries and unaccepted proposals add
+nothing. Active lists follow the plan and sync with the web app.
 
-## Create a list for a range
+## One list per shop
 
-"Make a shopping list for Friday to Sunday."
+- Make it in the same turn as a plan of several days; offer it after
+  one meal. Range: first meal the shop feeds to the day before the next
+  shop. Name it after the shop; say when to shop from the stored
+  shopping days, never an invented deadline.
+- Never a second list over dates an active list covers: use it, or
+  move it with `rename_shopping_list {"listId", "from", "to"}` (keeps
+  ticks). A completed, ticked or past list is never stretched: make a
+  new one (`no_shopping_list` says which).
+- `completedLists`: say in one line which older lists were finished.
+- Several active lists: pick by date range (`activeLists`); ask only
+  if two still fit.
+- Lines with `boughtOn` are bought: never offer or ask about them.
+- `"compact": true` when you only show or tick.
 
-1. `get_context {}` → `today` (say 2026-11-09, Monday) and
-   `activeShoppingList`.
-2. Resolve the range: Friday `2026-11-13` to Sunday `2026-11-15`.
-3. Look for an existing list first:
-   `list_shopping_lists {"status": "active"}`. If one already covers this
-   range, use it instead of creating a duplicate (it is already up to date
-   with the plan); ask if unsure.
-4. Check the plan: `get_plan {"from": "2026-11-13", "to": "2026-11-15"}`.
-   Entries without `recipeId` (eating out, dishes planned by name only) and
-   leftovers entries (`servings: 0`) add nothing. Tell the user which meals
-   will not contribute (leftovers need no mention), and
-   offer to link a recipe or add items manually.
-5. Create it:
-   ```
-   create_shopping_list {"from": "2026-11-13", "to": "2026-11-15",
-     "name": "Weekend 13–15 Nov"}
-   ```
-6. Review the result (`list.items`):
-   - items with `quantityUnknown: true` → mention them, or set a quantity with
-     `update` if the user knows it;
-   - pantry staples (oil, salt, spices, flour, rice): ask once "Do you already
-     have any of these?" and **check** the ones they have (do not remove them:
-     plan-derived items come back when the plan changes, checked marks survive
-     unless more is needed).
-7. Show the list grouped by category in the user's units (below) with its
-   `url` (opens it in Droklo) and offer the next step: add extras, export, or
-   send to a store.
+## Read the result
+
+```
+create_shopping_list {"from": "2026-11-13", "to": "2026-11-15", "name": "Weekend shop"}
+```
+
+- `quantity` is the pack to buy: show as is. `needed` is what the
+  recipes use: quote it when asked how much a dish takes, or for
+  someone who wants grams.
+- `list.counts` are the only counts you say, from the latest result.
+- `list.countedFor`: what the list is for and for how many.
+- `notOnList`: link a recipe, add the items by hand, or say which meals
+  they shop for themselves. Never call the list complete otherwise.
+- `planChecks`: a fresh meal too long after the shop; offer to freeze
+  or move it.
+- `oneMeal`: lines bought for one meal. When money is tight, offer to
+  swap that meal. Never call it a saving in money.
+- `likelyAtHome.question` and `atShopping.ask`: ask both once, as
+  worded, in the reply that hands over the list; no other question.
+  Say `assumed` items were taken as at home. Then one call:
+
+```
+update_shopping_items {"listId": "sl_weekend",
+  "pantry": "allLikelyAtHome", "except": ["paprika"]}
+```
+
+  Field absent: ask nothing about staples. Someone who does not know
+  their cupboard: leave the items to buy and say so.
+- `inPantry: true`: not to buy, not counted or costed. Close with
+  "Check you still have: rice, olive oil." Droklo knows names, not
+  stock.
+- "We're out of oil": `"ranOut": ["olive oil"]` that turn. `noLine`: no
+  planned meal needs it; offer to add it by hand.
+- `pantryHint` after ticking: ticks hold for this list only; "always
+  have these" is `pantry`.
+
+Yours to add: the deciding words in the item name ("gluten-free
+tamari", "halal chicken") and, for an allergy, coeliac disease or a
+religious rule, one line naming every item whose label matters.
+
+**Stores and days:** `"where": [{"label": "Market", "ids": […]}]`
+(`null` clears). Use it when they name two stores or days; group by it.
+
+**Show it short:** by aisle, amounts as given. Long list:
+`counts.toBuy`, the link, the few items worth a remark. Paste only from
+`export_shopping_list`.
+
+**Paper and people without a login:** `"format": "print"` for paper
+(give the text itself to someone who cannot print), `"format": "text"`
+for a message. People in `readers.withoutLogin` get the text, never the
+link.
+
+Once they left with a list, later additions go in a new list. A remade
+list: say the old link is dead.
 
 ## Change items
 
-`update_shopping_items` takes the list id and any of `add`, `update`,
-`remove`, `check`, `uncheck` in one call:
+`update_shopping_items` takes `add`, `update`, `remove`, `check`,
+`uncheck`, `checkAll`, `where`, `pantry`, `ranOut` in one call:
 
 ```
-update_shopping_items {
-  "listId": "sl_weekend",
-  "add": [
-    {"name": "Milk", "quantityText": "2 l", "quantityGrams": 2000, "unit": "ml", "category": "dairy"},
-    {"name": "Bananas", "quantityText": "6", "unit": "pcs", "category": "fruit"},
-    {"name": "Dish soap", "category": "other"}
-  ],
-  "update": [{"id": "si_rice", "patch": {"quantityText": "1 kg", "quantityGrams": 1000, "unit": "g"}}],
-  "check": ["si_olive_oil", "si_salt"],
-  "uncheck": [],
-  "remove": []
-}
+update_shopping_items {"listId": "sl_weekend",
+  "add": [{"name": "Milk", "quantityText": "2 l", "category": "dairy"}],
+  "update": [{"id": "si_rice", "patch": {"quantityText": "1 kg"}}],
+  "remove": ["si_ghee"], "check": ["si_eggs"]}
 ```
 
-- Manual items need only `name`; add `quantityText`, `quantityGrams` with
-  `unit` (`g`, `ml` or `pcs`) and `category` when you know them. Non-food
-  items are fine (`category: "other"`).
-- "I bought the milk and eggs" → `get_shopping_list {"listId": …}`, match the
-  names, then `check` those ids. Ask when a name matches several items.
-- `remove` is for manual items the user no longer wants. A removed
-  plan-derived item comes back with the next plan change; to drop it for good,
-  change the plan or check it.
+- "I bought the milk": match names to ids; ask if several match.
+  "Take off the ghee": `remove` by id, then confirm from `counts`.
+- Back from the shop: `"checkAll": true` (`uncheck` what they did not
+  get), then `set_shopping_list_status … "completed"`. `undo` in the
+  result puts ticks back.
+- Hand edits survive refreshes (`edited`). Removed lines stay off until
+  a new meal needs them (`changes.keptOff`): say so.
+- On an error nothing was applied: fix and resend the whole call.
 
-## Keep the list in sync with the plan
+## When the plan changes
 
-Droklo keeps active lists in step with the plan by itself. Every plan tool
-(`add_plan_entries`, `update_plan_entry`, `move_plan_entry`,
-`swap_plan_entries`, `delete_plan_entries`) and every plan change in the web
-app refreshes the active lists whose range contains a date it touched (the old
-and the new date of a move). Do not call `refresh_shopping_list` after them.
+Plan tools refresh the lists themselves (`shoppingLists`: `added`,
+`removed`, `changed`, `recheck`). Say what changed in a line with the
+`url`. Name each `recheck` item and ask if they have the extra. Call
+`refresh_shopping_list` only when a planned recipe or a member changed;
+rewrite `changes.reword` lines. A change after shopping must not
+re-buy: ticked and `boughtOn` lines are bought.
 
-The plan tool's result says what happened in `shoppingLists` (empty when no
-active list covers the dates):
+## The shop did not happen
 
-```
-"shoppingLists": [{
-  "listId": "sl_weekend", "name": "Weekend 13–15 Nov", "url": "https://www.droklo.com/shopping/sl_weekend",
-  "added":   [{"itemId": "si_cream", "name": "Cream", "quantity": "200 ml"}],
-  "removed": [{"name": "Feta", "quantity": "150 g", "wasChecked": false}],
-  "changed": [{"itemId": "si_pasta", "name": "Pasta", "before": "300 g", "after": "450 g"}],
-  "recheck": [{"itemId": "si_chicken", "name": "Chicken breast", "before": "500 g", "after": "750 g"}]
-}]
-```
+No blame, no why. Ask only which meals they can make from home food
+and when the next shop is. Re-plan the days until then, move the rest
+after it (`move_plan_entry`; act on `dependents`, `notesToReview`),
+move the list with `rename_shopping_list`, and close with tonight's
+meal, the new shop day and the link. Part bought: tick it and plan
+around it first.
 
-Tell the user in a line or two what changed, with the list's `url`. Name every
-`recheck` item: the user had checked it (bought it or has it), but the plan
-now needs clearly more (at least 20 % and 10 g or ml more), so Droklo
-unchecked it and it shows again with the new total. Ask whether they already
-have the extra amount; if they do, `check` it again. Smaller top-ups,
-quantity drops and pantry staples (`oils`, `spices`) stay checked.
+## Budget
 
-Moving or swapping a meal into the list's dates puts its ingredients in
-`added` as still to buy, even when the user already has them (for example,
-they cooked tomorrow's dinner tonight). If the user said they have them,
-`check` those items right away.
+Droklo knows no prices. It keeps `foodProfile.weeklyBudget` and your
+estimate, and says when the estimate is over.
 
-Call `refresh_shopping_list {"listId": …}` yourself only when something other
-than the plan changed what a list needs: a planned recipe's ingredients or
-portions (`save_recipe`), or a family member archived or back. Its result has
-the same `changes`. Leftovers entries (`servings: 0`) never add items: the
-cooking entry carries the extra servings.
+1. Estimate the to-buy items from usual prices where they shop.
+2. `set_shopping_list_estimate {"listId", "amount": 135, "currency":
+   "EUR", "note": "Rough guess; fish and beef are a third."}`
+   (`currency` may be left out when a weekly budget is stored).
+3. Say it as a guess with what it covers: "about 135 for the six
+   dinners; I can't see prices."
+4. `budget.overBudget: true`: say `overBy` and offer the two or three
+   swaps that save most; after a yes change the plan and re-estimate.
+   Otherwise say what is `left` for what else the budget covers. "Within
+   budget" only when the figure covers everything the budget pays for.
 
-## Export
+Real total: `{"listId", "actual": 142}`; it anchors the next guess. "No
+set budget": save `"weeklyBudget": "none"`. Only a level (`"tight"`):
+name the costliest items and a cheaper swap each; do not ask for an
+amount twice.
 
-```
-export_shopping_list {"listId": "sl_weekend", "format": "markdown"}
-```
+## Units
 
-Returns the list grouped by category, as
-markdown checkboxes (the default) or `"text"` for plain text, for example to
-paste into a messaging app. Show it as is; do not re-sort.
+Stored in grams, millilitres, pieces. `foodProfile.units: "us"` shows
+ounces, pounds, quarts: set it when someone asks for pounds or cups.
 
-## Finish, rename or delete a list
+## Finish, rename, delete
 
-- Shopping done: `set_shopping_list_status {"listId": …, "status": "completed"}`.
-  `"archived"` hides an old list, `"active"` brings it back. Nothing is
-  deleted.
-- `rename_shopping_list {"listId": …, "name": "Thanksgiving"}` (`null`
-  clears the name).
-- `delete_shopping_list {"listId": …}` removes the list and its items for
-  good. Ask first, and suggest archiving instead.
+`set_shopping_list_status`: `completed`, `archived`, `active` (`changed:
+null` = already so). `rename_shopping_list` for name or dates.
+`delete_shopping_list`: ask first, suggest archiving.
 
 ## Hand off to a store
-
-If the conversation has tools from a grocery service (for example an
-Instacart MCP server or another store connector):
-
-1. `get_shopping_list {"listId": …}` and take the **unchecked** items.
-2. For each item, search the store with its `name` and pick a product that
-   matches the household's restrictions (gluten-free, dairy-free…) and
-   `householdNotes` (budget, organic). Ask when the choice is not obvious.
-3. Convert quantities to the store's pack sizes and the user's units: 680 g
-   chicken breast → about 1.5 lb; 2000 ml milk → a half gallon; 3 onions →
-   3 each. Round up to whole packs.
-4. Add them to the store's cart or list with the store's own tools and show
-   the user a summary: item, product chosen, quantity, unmatched items.
-5. Never place an order or pay without the user's explicit confirmation of
-   the items and total in that store's flow.
-6. After the user confirms the order, ask whether to mark those items as
-   bought, then `check` them in Droklo.
-
-`household.favoriteStores` names the stores the household likes; prefer them
-when you have a choice of connector.
-
-Without a store connector, give a clean list instead: the markdown export, or
-your own list grouped by category with quantities in the user's units and the
-meals each item is for.
-
-## Units for people
-
-Droklo stores grams, millilitres and pieces. When you show quantities:
-
-- US households: ounces and pounds for weight (1 lb = 454 g), fluid ounces,
-  cups, quarts or gallons for liquids, "each" for pieces.
-- Metric households: g and kg, ml and l.
-- Round to sensible shopping amounts (≈ 1.5 lb, 2 cans, 1 bunch).
-
-## Worked example
-
-User (US household): "Weekend shopping list please, and send it to Instacart."
-
-```
-get_context {}                                   → today 2026-11-09, no active list
-list_shopping_lists {"status": "active"}         → none for 13–15 Nov
-get_plan {"from": "2026-11-13", "to": "2026-11-15"}
-                                                 → 4 entries, 1 without recipe ("Dinner at grandma's")
-create_shopping_list {"from": "2026-11-13", "to": "2026-11-15", "name": "Weekend 13–15 Nov"}
-                                                 → 23 items
-update_shopping_items {"listId": "sl_1", "check": ["si_oil", "si_salt", "si_cumin"]}
-                                                 (user already has these)
-get_shopping_list {"listId": "sl_1"}             → 20 unchecked items
-```
-
-Then use the Instacart tools to build the cart, show the summary
-(20 items, 2 unmatched). After the user places the order and agrees, check
-the 18 ordered items with `update_shopping_items` and remind them about the 2
-unmatched ones.
+Only with a grocery service's tools: unticked, non-pantry items without
+`boughtOn`, products that fit restrictions. Never order or pay without
+the person confirming in the store's flow. No connector: give the export.

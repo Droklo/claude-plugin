@@ -1,63 +1,20 @@
 # Practice recipe library
 
-Recipes saved in the coach's **practice** workspace are visible, read-only,
-to every client household and their agents (`search_recipes` returns them
-with `owner.kind: "practice"` and `editable: false`). Clients' agents can plan
-them by id, which gives clients the coach's tested recipes with nutrition.
+Recipes in the coach's practice workspace are readable by every
+client household (`owner.kind: "practice"`, `editable: false`). A
+template's week uses only these.
 
-## Find the practice id
-
-```
-list_workspaces {}  → {"id": "ws_practice", "kind": "practice", …}
-```
-
-Pass `workspaceId: "ws_practice"` to `search_recipes`, `save_recipe`,
-`get_recipe` and `delete_recipe` for library work. These recipe tools are the
-ones that accept a practice id (household tools refuse it). Without it, the
-tools act on your default workspace, which may be a client's or your own
-household. Only the practice owner can edit its library; other members of
-the practice get `FORBIDDEN`.
-
-## Add a recipe
-
-Same rules as any Droklo recipe (the `droklo` skill's recipe-capture
-reference has the full detail if it is installed). The essentials:
-
-1. Get the recipe content: fetch the URL, or read the pasted text or photo.
-   Droklo does not fetch pages itself.
-2. Dedupe: `search_recipes {"workspaceId": "ws_practice", "query": "<name>"}`.
-   Update an existing one by passing its `id`.
-3. `save_recipe {"workspaceId": "ws_practice", "recipe": {…}}` with:
-   - `name`, `portions` (required), `sourceUrl` and `sourceName` when there is
-     a source, `instructions`, `cookingTimeMin`;
-   - `ingredients[]` with `name`, lowercase English singular
-     `canonicalName`, `quantityText`, `quantityGrams`, shopping `category`
-     code, `allergyMarkers` (restriction codes) and `processingLevel`;
-   - `nutritionPerPortion` (`caloriesKcal`, `proteinG`, `carbsG`, `fatG`)
-     from the source with `nutritionEstimated: false`, or estimated from
-     USDA FoodData Central with `nutritionEstimated: true`;
-   - `recipeCategory`, `primaryProteinSource`, `isCompleteMeal`, `dietTags`.
-4. Confirm to the coach: name, portions, kcal and protein per portion
-   (estimated or not), allergens marked.
-
-Coaches' own recipes (no URL) are welcome: `sourceName` = the practice name,
-`sourceUrl` null.
-
-## Keep the library useful
-
-- Complete nutrition on every recipe: clients' agents rank recipes with
-  nutrition higher, and logs derive nutrition from them.
-- Mark allergens accurately: clients' agents exclude recipes by
-  `allergyMarkers`.
-- Name recipes clearly, in English.
-- Deleting a practice recipe (`delete_recipe`, ask first) hides it from all
-  clients; plan entries and logs that used it keep their dish names.
-
-## Recommend a library recipe to a client
-
-- Mention it in a comment on the client's plan entry or day
-  (`add_comment` with the client's `workspaceId`), naming the recipe; or
-- when the coach asks, plan it in the client's household:
-  `add_plan_entries {"workspaceId": "ws_smith", "entries": [{"date": …,
-  "mealType": "lunch", "dishName": "<recipe name>", "recipeId": "<practice recipe id>"}]}`.
-  Check the household's restrictions and the slot first.
+- The practice id: `list_workspaces` → `kind: "practice"`. Pass it as
+  `workspaceId` to `search_recipes`, `save_recipe`, `get_recipe`,
+  `delete_recipe`. Only the practice owner edits.
+- **Add:** read the page, text or photo yourself; search first and
+  update by `id`; `save_recipe {"workspaceId", "recipe"}` with
+  ingredients, `allergyMarkers` and nutrition per portion
+  (`nutritionEstimated: true` when estimated), also for a practice
+  without numbers. The coach's own recipe: `sourceName` the practice
+  name, no `sourceUrl`. Confirm name, portions, allergens and `url`.
+- `delete_recipe` (ask first) hides it from all clients.
+- **Recommend:** name it in a comment, or propose it with
+  `add_plan_entries {"workspaceId": "<client household>", "entries":
+  [{"date", "mealType", "dishName", "recipeId"}]}` and read
+  `planChecks`.
