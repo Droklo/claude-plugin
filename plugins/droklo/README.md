@@ -62,72 +62,17 @@ third-party marketplaces by itself: under `/plugin` → Marketplaces → droklo,
 select **Enable auto-update**. Ask, for example, "Plan our
 dinners for next week" or "Log my lunch".
 
-From a checkout of this repository (development):
-
-```
-claude --plugin-dir ./plugins/droklo
-```
-
 If you already added Droklo as an MCP server yourself (`claude mcp add`), you
 will see its tools twice; remove one of the two.
 
-### Personal access token instead of OAuth
-
-To use a personal access token instead of OAuth (create one in Droklo under
-Settings → Connect your AI assistant, `/settings/connect`), add the server
-yourself and use the skills from the plugin:
-
-```
-claude mcp add --transport http droklo https://www.droklo.com/api/mcp \
-  --header "Authorization: Bearer drk_..."
-```
-
-For local development against `http://localhost:3000/api/mcp`, add that URL
-the same way.
+Droklo also offers personal access tokens for clients without OAuth; see
+Settings → Connect your AI assistant in Droklo.
 
 ## ChatGPT
 
 Add the MCP server as an app/connector (developer mode). The same rules reach
 ChatGPT through the server instructions and `get_context.guidance`; skill
 zips can be uploaded where ChatGPT Skills are available.
-
-## Layout
-
-```
-plugins/droklo/
-├── .claude-plugin/plugin.json   manifest (name, version, metadata)
-├── .mcp.json                    the Droklo MCP connector (HTTP)
-├── assets/icon.png              1024 px plugin icon
-├── README.md
-└── skills/                      GENERATED copy of agent-skills/*
-    ├── droklo/
-    ├── droklo-coach/
-    └── droklo-setup/
-```
-
-## Maintaining
-
-The skills are single-sourced in `agent-skills/` (the Agent Skills standard
-layout). Plugins cannot reference files outside the plugin directory (paths
-with `..` are rejected and installed plugins are copied to a cache), so
-`scripts/build-skills.ts` copies them into `skills/` here.
-
-1. Edit `agent-skills/<skill>/…` and, for the golden rules,
-   `src/lib/agent-guidance.ts` (the build copies them into each SKILL.md).
-2. Bump `version` in `.claude-plugin/plugin.json` **and** `metadata.version`
-   in each SKILL.md (the build checks they match). Claude keeps users on a
-   version until it changes.
-3. Run `npx tsx scripts/build-skills.ts`. It validates the skills (frontmatter
-   limits, tool names against `docs/rework/mcp-tools.md`, codes against
-   `src/types/domain.ts`), refreshes `skills/`, and rebuilds
-   `public/downloads/{droklo,droklo-coach,droklo-plugin}.zip`,
-   `public/downloads/marketplace.json` and the repository marketplace
-   `.claude-plugin/marketplace.json`.
-4. Run `claude plugin validate plugins/droklo`.
-5. Commit the generated files. `npx tsx scripts/build-skills.ts --check` fails
-   when they are out of date.
-6. Run `pnpm publish:plugin` to push the plugin to the public marketplace
-   repository (`--dry-run` shows the changes first).
 
 ## What this plugin runs and sends
 
@@ -154,4 +99,3 @@ with `..` are rejected and installed plugins are copied to a cache), so
 See Droklo's [privacy policy](https://www.droklo.com/privacy) and
 [terms of service](https://www.droklo.com/terms).
 
-Never edit `skills/` here directly; the next build overwrites it.
