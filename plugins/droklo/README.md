@@ -102,10 +102,12 @@ plugins/droklo/
 ├── .claude-plugin/plugin.json   manifest (name, version, metadata)
 ├── .mcp.json                    the Droklo MCP connector (HTTP)
 ├── assets/icon.png              1024 px plugin icon
+├── hooks/                       SessionStart update check (Claude Code, Cowork)
 ├── README.md
 └── skills/                      GENERATED copy of agent-skills/*
     ├── droklo/
-    └── droklo-coach/
+    ├── droklo-coach/
+    └── droklo-setup/
 ```
 
 ## Maintaining
@@ -132,8 +134,34 @@ with `..` are rejected and installed plugins are copied to a cache), so
 6. Run `pnpm publish:plugin` to push the plugin to the public marketplace
    repository (`--dry-run` shows the changes first).
 
+## What this plugin runs and sends
+
+- The **connector** talks only to `https://www.droklo.com/api/mcp`, over
+  HTTPS, signed in as you (OAuth). Claude reads and writes your Droklo
+  household data through it: household profile, family members, goals and
+  targets, allergies and diets, recipes, the meal plan, meal logs, shopping
+  lists and comments. Each tool says whether it only reads, changes or
+  deletes data, so Claude can ask before destructive actions.
+- The **skills** are instructions only; they run no code.
+- The **hook** (Claude Code and Cowork only) runs `hooks/check-update.sh`
+  with `sh` at session start. At most once a day it downloads
+  `https://www.droklo.com/downloads/marketplace.json` with `curl` to read the
+  latest version number, caches it in the plugin's data folder and prints a
+  one-line note when an update is out. It sends nothing about you or your
+  household, reads only its own `plugin.json` and cache, and changes no settings.
+  `DROKLO_NO_UPDATE_CHECK=1` turns it off.
+- Droklo itself calls no AI model and doesn't fetch web pages for you.
+
+## Guide and support
+
+- How to connect Droklo and what to ask:
+  [Using Droklo with Claude](https://www.droklo.com/guide).
+- Help: [support page](https://www.droklo.com/support) or
+  egidijus.pilypas@gmail.com.
+
 ## Privacy
 
-See Droklo's [privacy policy](https://www.droklo.com/privacy).
+See Droklo's [privacy policy](https://www.droklo.com/privacy) and
+[terms of service](https://www.droklo.com/terms).
 
 Never edit `skills/` here directly; the next build overwrites it.
