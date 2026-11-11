@@ -32,9 +32,8 @@ Keep the returned log ids for comments.
 - **A reading** (`reading` with `kind`, `value`, `unit` as said, optional
   `timing`; kinds `glucose`, `ketones`,
   `blood-pressure`, `weight`, `other`) goes on that meal's log, not in
-  the note. Do not interpret or reassure. Say it is saved and who sees
-  it: the household, and a coach only when one is assigned to that
-  person.
+  the note, for one person; alone is fine. Do not interpret or
+  reassure. Pass on `readingSaved` (who sees it).
 
 ## Rating and feeling
 

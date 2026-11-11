@@ -3,7 +3,8 @@
 Ask in the user's language, your own wording; offer short lettered
 options, accept free text. Save in English right after each answer.
 Ids come from `get_context`. A step with nothing to save:
-`update_household {"setupDone": [step]}`.
+`update_household {"setupDone": [step], "asked": [its questions]}`;
+`setupNotDone.missing` names the `asked` keys a step still needs.
 
 ## people
 

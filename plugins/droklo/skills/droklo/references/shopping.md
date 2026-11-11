@@ -30,7 +30,7 @@ create_shopping_list {"from": "2026-11-13", "to": "2026-11-15", "name": "Weekend
 - `quantity` is the pack to buy: show as is. `needed` is what the
   recipes use: quote it when asked how much a dish takes, or for
   someone who wants grams.
-- `list.counts` are the only counts you say, from the latest result.
+- `list.summary` is the count you say, from the latest result.
 - `list.countedFor`: what the list is for and for how many.
 - `notOnList`: link a recipe, add the items by hand, or say which meals
   they shop for themselves. Never call the list complete otherwise.
@@ -38,9 +38,8 @@ create_shopping_list {"from": "2026-11-13", "to": "2026-11-15", "name": "Weekend
   or move it.
 - `oneMeal`: lines bought for one meal. When money is tight, offer to
   swap that meal. Never call it a saving in money.
-- `likelyAtHome.question` and `atShopping.ask`: ask both once, as
-  worded, in the reply that hands over the list; no other question.
-  Say `assumed` items were taken as at home. Then one call:
+- `ask.questions`: ask them once, as worded, in the reply that hands
+  over the list; no other question (`ask.later` waits). Then one call:
 
 ```
 update_shopping_items {"listId": "sl_weekend",
@@ -48,10 +47,9 @@ update_shopping_items {"listId": "sl_weekend",
 ```
 
   Field absent: ask nothing about staples. Someone who does not know
-  their cupboard: leave the items to buy and say so.
-- `inPantry: true`: not to buy, not counted or costed. Close with
-  "Check you still have: rice, olive oil." Droklo knows names, not
-  stock.
+  their cupboard: `"unsure"` (names, ids or `"allLikelyAtHome"`).
+- `list.atHome`: not to buy, not counted or costed. Close with its
+  `check` line. Droklo knows names, not stock.
 - "We're out of oil": `"ranOut": ["olive oil"]` that turn. `noLine`: no
   planned meal needs it; offer to add it by hand.
 - `pantryHint` after ticking: ticks hold for this list only; "always
@@ -65,7 +63,7 @@ religious rule, one line naming every item whose label matters.
 (`null` clears). Use it when they name two stores or days; group by it.
 
 **Show it short:** by aisle, amounts as given. Long list:
-`counts.toBuy`, the link, the few items worth a remark. Paste only from
+`summary`, the link, the few items worth a remark. Paste only from
 `export_shopping_list`.
 
 **Paper and people without a login:** `"format": "print"` for paper
@@ -79,7 +77,7 @@ list: say the old link is dead.
 ## Change items
 
 `update_shopping_items` takes `add`, `update`, `remove`, `check`,
-`uncheck`, `checkAll`, `where`, `pantry`, `ranOut` in one call:
+`uncheck`, `checkAll`, `where`, `pantry`, `unsure`, `ranOut` in one call:
 
 ```
 update_shopping_items {"listId": "sl_weekend",
@@ -89,7 +87,7 @@ update_shopping_items {"listId": "sl_weekend",
 ```
 
 - "I bought the milk": match names to ids; ask if several match.
-  "Take off the ghee": `remove` by id, then confirm from `counts`.
+  "Take off the ghee": `remove` by id, then confirm from `changed`.
 - Back from the shop: `"checkAll": true` (`uncheck` what they did not
   get), then `set_shopping_list_status … "completed"`. `undo` in the
   result puts ticks back.

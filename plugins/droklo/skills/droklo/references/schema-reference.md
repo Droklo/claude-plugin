@@ -62,7 +62,8 @@ limit), `sharedTable` (`one-dish`/`separate-dishes`), `regularGuests`
 `householdNotes`.
 
 `update_household` also takes `setupDone` (topics with nothing to
-add), `asked` (intake keys asked and not answered), `datesConfirmed`
+add), `asked` (intake keys asked and not answered), `onboarded` (true once
+the first-visit questions are done or set aside), `datesConfirmed`
 and `reminderDay`. `household.reminders.email` is true only when
 Droklo can send email.
 

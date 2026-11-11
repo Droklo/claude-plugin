@@ -48,7 +48,7 @@ Save on a yes. Taking one back: `delete_plan_entries {"workspaceId",
   {from, to, note}` with the write. Do not answer for the client.
 - `dayTotals`: read days here, never add up. Part of the day planned:
   ask whether to add the rest or leave it to the client.
-- `coverage` (evenings without dinner), `planUrl` (give this link),
+- `coverage` (planned meals still open), `planUrl` (give this link),
   `note` (how the family learns of it: say that, not your version).
 
 ## 5. The client and the note

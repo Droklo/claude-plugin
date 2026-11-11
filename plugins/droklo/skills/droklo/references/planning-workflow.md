@@ -15,7 +15,8 @@ for every horizon.
   `maxPrepMinutes`; start to plate, hands-on for a dish that cooks
   unattended. An evening that is always different: that weekday's
   dinner slot `maxPrepMinutes` (send all seven days, keep ids).
-- **Intake.** Ask `planning.intake` as worded, all in one reply, then
+- **Intake.** First visit: `planning.onboarding` as its `howTo` says.
+  Otherwise ask `planning.intake` as worded, all in one reply, then
   draft. Save answers as each `save` says; unanswered parts go to
   `update_household {"asked": [key]}`. If they wave the questions away,
   plan on defaults; a safety question is still asked.
@@ -110,7 +111,7 @@ after asking.
   for a strict allergy while a label finding stands. Fresh food too
   long after the shop: move it, or note how it keeps.
 - `assumptions`: state in one line, ask nothing.
-- `coverage`: fill open evenings or say which and why.
+- `coverage`: fill the meals its `message` names or say which and why.
 - `dayTotals`: `partial`, `uncounted` or `sharedFood` rows are not a
   whole day; never say someone eats too little from them. A day off
   target: fix with `servings`, `additions` or a snack.
