@@ -1,6 +1,6 @@
 # Logging and feedback
 
-Logs record what each member really ate. They feed the coach's review,
+Logs record what each member really ate, for the coach's review,
 taste history and the plan's "cooked" marks. Never make logging a
 chore or a condition.
 
@@ -8,19 +8,19 @@ chore or a condition.
 
 ```
 log_meal {"familyMemberIds": ["fm_me"], "date": "2026-11-09",
-  "mealType": "dinner", "planEntryId": "pe_tue", "portion": 1,
-  "rating": "liked", "feeling": "heavy", "note": "Too much rice for me"}
+  "mealType": "dinner", "planEntryId": "pe_tue",
+  "rating": "liked", "feeling": "heavy", "note": "Too much rice"}
 ```
 
-Keep the returned log ids for comments.
+Keep log ids for comments.
 
 - **Who.** "I" = the member linked to `actor.userId`. "We" =
   `"familyMemberIds": "all"` (the entry's attendees with `planEntryId`).
-  Unknown name: ask. Different portions: one call per `portion`.
-- **What.** Planned meal (leftovers too): `planEntryId`. They ate
-  something else that night: `dishName` without the entry, so the plan
-  is not marked eaten as planned. Unplanned: `dishName`, plus
-  `recipeId` when it is in the library.
+  Unknown name: ask. Portions differ: one call each.
+- **What.** Planned meal (leftovers too): `planEntryId`. Something
+  else that night: `dishName` without the entry, so the plan is not
+  marked eaten as planned. Unplanned: `dishName`, plus
+  `recipeId` if in the library.
 - **When.** The household date it was eaten, from `today`; a future
   date is refused. `eatenAt` only when they give a time. `mealType`
   follows when it was eaten.
@@ -39,15 +39,14 @@ Keep the returned log ids for comments.
 
 Map their words; do not ask for a rating every time.
 
-- `liked`: loved it, make again. `neutral`: fine. `disliked`: never
-  again.
+- `liked`: make again. `neutral`: fine. `disliked`: never again.
 - `great`, `ok`, `heavy` (too full, sluggish), `bloated`,
-  `still-hungry`, `low-energy` (tired, crashed). Anything else goes in
-  a short factual `note`.
+  `still-hungry`, `low-energy` (tired, crashed). Anything else: a
+  short factual `note`.
 - A lasting verdict: `rate_recipe {"recipeId", "rating", "reason"}`
   (or `dishName`). Disliked dishes stay out of later plans.
-- A fixable complaint ("too bland", "took longer than it said") is
-  fixed in the recipe, not stored as a dislike.
+- A fixable complaint ("too bland", "took too long") is fixed in the
+  recipe, not stored as a dislike.
 
 ## Correct or remove
 
@@ -55,6 +54,11 @@ Map their words; do not ask for a rating every time.
 `update_meal_log {"id", …}` (changed fields; `null` clears; a new
 `portion` rescales nutrition). `delete_meal_log` only after a yes; its
 threads go too.
+
+## Goal status
+
+`get_goal_status {"period"}`: relay `say`; never add up yourself. A
+day with no log is not a bad day. Numbers hidden: none.
 
 ## Ask the coach
 
@@ -66,7 +70,7 @@ full list; `[]` removes all and releases locks).
 
 ```
 add_comment {"target": {"type": "mealLog", "id": "ml_123"},
-  "body": "Was this too much rice for my goal? I felt heavy afterwards.",
+  "body": "Too much rice for my goal?",
   "kind": "question"}
 ```
 
@@ -74,7 +78,7 @@ add_comment {"target": {"type": "mealLog", "id": "ml_123"},
   `date`) or `general`. For a day or general question about one
   person add `familyMemberId`.
 - `question` when they expect an answer. Their words, in English; add
-  no advice of yours and do not answer for the coach.
+  no advice and do not answer for the coach.
 - The result's `delivery` says who can read it: tell them. A coach
   does not see a thread about a member they do not coach.
 

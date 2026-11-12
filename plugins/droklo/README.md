@@ -67,9 +67,19 @@ will see its tools twice; remove one of the two.
 
 ## ChatGPT
 
-Add the MCP server as an app/connector (developer mode). The same rules reach
-ChatGPT through the server instructions and `get_context.guidance`; skill
-zips can be uploaded where ChatGPT Skills are available.
+In ChatGPT, open **Plugins** in the sidebar and select **Add → Add custom MCP
+server**. Name it **Droklo**, use the address `https://www.droklo.com/api/mcp`
+and keep **OAuth**. Tick **I understand and want to continue**, select
+**Create as a plugin**, then **Connect Droklo**, sign in to Droklo and allow
+access. Upload [droklo.zip](https://www.droklo.com/downloads/droklo.zip) under
+**Plugins → Skills → Add → Upload from your computer**. The same rules also
+reach ChatGPT through the server instructions and `get_context.guidance`.
+
+## Let your assistant connect it
+
+Say to your assistant: "Read https://www.droklo.com/connect/agent and connect
+Droklo to my assistant." That page has the steps for Claude, Claude Code,
+ChatGPT and other MCP clients, and says which steps only you can do.
 
 ## What this plugin runs and sends
 
