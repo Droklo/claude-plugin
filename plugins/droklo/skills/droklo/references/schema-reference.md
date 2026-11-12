@@ -52,7 +52,7 @@ never clinical advice.
 
 ## Food profile (`household.foodProfile`)
 
-`weeknightMinutes`, `weekendMinutes` (win over slot defaults; `0` = no
+`weeknightMinutes`, `weekendMinutes` (see `timeLimits`; `0` = no
 limit), `sharedTable` (`one-dish`/`separate-dishes`), `regularGuests`
 (`name`, `weekdays`, `mealTypes?`, `restrictions?`, `diet?`, `note?`;
 `[]` = nobody), `cooking`, `plannedMeals`, `pantry` (names only),

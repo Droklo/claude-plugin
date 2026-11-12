@@ -37,8 +37,8 @@ proper names).
 - `instructions`: short numbered steps in your own words.
 - `imageUrl`: a stable public image only; never an expiring link or
   the user's photo.
-- `prepTimeMin` (hands-on; estimate it), `cookingTimeMin`,
-  `totalTimeMin` (start to table, without long marinating or rising).
+- `prepTimeMin` before the heat, `cookingTimeMin` on it, `totalTimeMin`
+  start to table (no long marinating or rising); estimate.
 - `recipeCategory`, `isCompleteMeal`, `garnishSuggestion` (for a
   `main-course`), `primaryProteinSource`, `cuisineTag` (lowercase),
   `dietTags` (diet codes, `gluten-free`, `dairy-free`, `nut-free`).
@@ -75,7 +75,7 @@ proper names).
 Leave out water. Keep salt, pepper and frying oil.
 
 ## Grams
-Prefer the recipe's own grams; otherwise convert and estimate.
+Prefer the recipe's own grams; else convert and estimate.
 
 ## Nutrition
 

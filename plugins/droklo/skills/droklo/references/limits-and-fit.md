@@ -27,7 +27,7 @@ you can inside it. Never promise what is listed as missing here.
 It cannot read a label, a ready-made product, a dish without a recipe
 or a visitor nobody put on the meal. So read ingredients yourself,
 name each label to check, and put every guest with an allergy in
-`guests`. Only the person can say "labels checked".
+`guests`. Only the person sets `checkedLabels`.
 
 ## Reminders
 

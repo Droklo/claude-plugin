@@ -34,12 +34,11 @@ create_shopping_list {"from": "2026-11-13", "to": "2026-11-15", "name": "Weekend
 - `list.countedFor`: what the list is for and for how many.
 - `notOnList`: link a recipe, add the items by hand, or say which meals
   they shop for themselves. Never call the list complete otherwise.
-- `planChecks`: a fresh meal too long after the shop; offer to freeze
-  or move it.
+- `planChecks` (`fresh_early`): do what it says.
 - `oneMeal`: lines bought for one meal. When money is tight, offer to
   swap that meal. Never call it a saving in money.
-- `ask.questions`: ask them once, as worded, in the reply that hands
-  over the list; no other question (`ask.later` waits). Then one call:
+- `ask.questions`: the one question, as worded, in the reply that
+  hands over the list (`askLater`: waits or is dropped). Then one call:
 
 ```
 update_shopping_items {"listId": "sl_weekend",
@@ -76,8 +75,7 @@ list: say the old link is dead.
 
 ## Change items
 
-`update_shopping_items` takes `add`, `update`, `remove`, `check`,
-`uncheck`, `checkAll`, `where`, `pantry`, `unsure`, `ranOut` in one call:
+`update_shopping_items` takes every op in one call:
 
 ```
 update_shopping_items {"listId": "sl_weekend",
@@ -88,30 +86,30 @@ update_shopping_items {"listId": "sl_weekend",
 
 - "I bought the milk": match names to ids; ask if several match.
   "Take off the ghee": `remove` by id, then confirm from `changed`.
-- Back from the shop: `"checkAll": true` (`uncheck` what they did not
-  get), then `set_shopping_list_status … "completed"`. `undo` in the
-  result puts ticks back.
+- A tick means the food is in the house. Order placed: do not tick.
+  Delivery arrived: `set_shopping_list_status {"status": "completed",
+  "checkAll": true}`, or `update_shopping_items {"checkAll": true,
+  "uncheck": [what did not come]}`. Named as bought or in the basket
+  in a shop: tick at once. `undo` puts ticks back.
 - Hand edits survive refreshes (`edited`). Removed lines stay off until
   a new meal needs them (`changes.keptOff`): say so.
 - On an error nothing was applied: fix and resend the whole call.
 
 ## When the plan changes
 
-Plan tools refresh the lists themselves (`shoppingLists`: `added`,
-`removed`, `changed`, `recheck`). Say what changed in a line with the
-`url`. Name each `recheck` item and ask if they have the extra. Call
+Plan tools refresh the lists themselves (`shoppingLists`). Relay `say` with the `url`. Name each `recheck` item as `say` words it. Call
 `refresh_shopping_list` only when a planned recipe or a member changed;
-rewrite `changes.reword` lines. A change after shopping must not
-re-buy: ticked and `boughtOn` lines are bought.
+rewrite `changes.reword` lines. Never re-buy after shopping: ticked
+and `boughtOn` lines are bought.
 
 ## The shop did not happen
 
-No blame, no why. Ask only which meals they can make from home food
-and when the next shop is. Re-plan the days until then, move the rest
-after it (`move_plan_entry`; act on `dependents`, `notesToReview`),
-move the list with `rename_shopping_list`, and close with tonight's
-meal, the new shop day and the link. Part bought: tick it and plan
-around it first.
+No blame, no why. Ask one question: when the next shop is; then
+`rename_shopping_list` to that day. Offer to move the meals that need
+the food (`move_plan_entry` only to days they agree; act on
+`dependents`, `notesToReview`). Close with tonight's meal from home
+food, the shop day and the link. Part bought: tick it first.
+`shop.state: "unknown"`: do not assume either way; follow `shop.say`.
 
 ## Budget
 
@@ -120,8 +118,7 @@ estimate, and says when the estimate is over.
 
 1. Estimate the to-buy items from usual prices where they shop.
 2. `set_shopping_list_estimate {"listId", "amount": 135, "currency":
-   "EUR", "note": "Rough guess; fish and beef are a third."}`
-   (`currency` may be left out when a weekly budget is stored).
+   "EUR", "note": "Rough guess; fish and beef are a third."}`.
 3. Say it as a guess with what it covers: "about 135 for the six
    dinners; I can't see prices."
 4. `budget.overBudget: true`: say `overBy` and offer the two or three
@@ -136,13 +133,12 @@ amount twice.
 
 ## Units
 
-Stored in grams, millilitres, pieces. `foodProfile.units: "us"` shows
-ounces, pounds, quarts: set it when someone asks for pounds or cups.
+`foodProfile.units: "us"` shows ounces, pounds, quarts: set it when
+someone asks for pounds or cups.
 
 ## Finish, rename, delete
 
-`set_shopping_list_status`: `completed`, `archived`, `active` (`changed:
-null` = already so). `rename_shopping_list` for name or dates.
+`set_shopping_list_status`: `changed: null` = already so.
 `delete_shopping_list`: ask first, suggest archiving.
 
 ## Hand off to a store
