@@ -13,9 +13,8 @@ offset. Weekdays: `mon` … `sun`; entries carry their `weekday`.
 ## Meals
 
 `mealType`: `breakfast`, `lunch`, `dinner`, `snack`, `other` (name in
-`label`). A `mealSchedule` slot: `id`, `name`, `label` (`home`/`out`),
-`maxPrepMinutes`, `memberAttendance[]` (`memberId`, `status`
-`home`/`out`/`skip`). Send all seven days back when you change one.
+`label`). Some weekdays of `mealSchedule`: `update_nutrition_rules
+{days}`.
 
 ## Restrictions and diets
 
@@ -26,13 +25,12 @@ offset. Weekdays: `mon` … `sun`; entries carry their `weekday`.
   `foodRestrictions` at every meal.
 - Household `selectedDiets`: `none`, `mediterranean`, `bodybuilding`,
   `keto`, `vegetarian`, `vegan`, `lowcarb`, `low-cholesterol`,
-  `custom`.
+  `custom`; and `pescatarian`, `halal`, `kosher` when everyone eats so.
 - A person's `diet`: `vegetarian`, `vegan`, `pescatarian`, `halal`,
   `kosher`; `dietDays` limits it to weekdays. Other rules go in their
   `notes`.
 - `restrictionExceptions`: foods a person may have despite a rule.
-- `update_nutrition_rules {"patch"}`: list items are added (send the
-  new item alone); `"remove": {"bannedFoods": ["Pork"]}` takes one
+- `update_nutrition_rules`: list items are added, `remove` takes one
   out; `selectedDiets`, `foodRestrictions`, `mealSchedule` are
   replaced whole; `"dryRun": true` previews.
 
@@ -58,13 +56,15 @@ limit), `sharedTable` (`one-dish`/`separate-dishes`), `regularGuests`
 `[]` = nobody), `cooking`, `plannedMeals`, `pantry` (names only),
 `units` (`metric`/`us`), `budget` (`tight`, `moderate`, `flexible`,
 `none`), `weeklyBudget` (`{amount, currency, covers}` or `"none"`),
-`equipment`, `cuisines`, `shoppingDays`. What has no field goes in
-`householdNotes`.
+`equipment`, `cuisines`, `shoppingDays`, `recipeSources`
+(`saved_only`, `saved_first`, `trusted_first`, `anywhere`) with
+`recipeSourcesNote`, `country`, `language` (replies), `cookUnits`
+(at the stove), `measures`, `onHand` (food to use up: `[{name,
+where?, amount?, note?}]` or `{add, remove}`). What has no field goes
+in `householdNotes`.
 
-`update_household` also takes `setupDone` (topics with nothing to
-add), `asked` (intake keys asked and not answered), `onboarded` (true once
-the first-visit questions are done or set aside), `datesConfirmed`
-and `reminderDay`. `household.reminders.email` is true only when
+`update_household` also takes `setupDone`, `asked`, `onboarded`,
+`datesConfirmed` and `reminderDay`. `household.reminders.email` is true only when
 Droklo can send email.
 
 ## Plan entries

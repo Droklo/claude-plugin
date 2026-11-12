@@ -1,7 +1,7 @@
 # Web recipe search
 
-Droklo never searches the web. You do, with your own tools, then
-`save_recipe`. Search the library (`search_recipes`) first.
+Droklo never searches the web. You do, then `save_recipe`. Library
+(`search_recipes`) first. A post they sent: recipe-capture.md.
 
 ## Where to look
 
@@ -11,19 +11,20 @@ Droklo never searches the web. You do, with your own tools, then
 2. Well-known sites with tested recipes.
 3. The open web.
 
-Match the household's region (`timezone`) for units and ingredients.
-Two or three candidates per meal, pick the best. They love a new site:
-offer `add_favorite_source {"name", "url", "searchHint"}`.
+Match the household's region (`timezone`) for ingredients. Two or
+three candidates per meal, pick the best. They love a new site: offer
+`add_favorite_source {"name", "url", "searchHint"}`.
 
 ## A good recipe
 
-Has full amounts and a yield, times that fit the slot, nutrition on
-the page, a real author or many reviews, supermarket ingredients, and
-equipment the household owns (`foodProfile.equipment`).
+Has full amounts and a yield, times that fit the slot, a real author
+or many reviews, supermarket ingredients, and equipment the household
+owns (`foodProfile.equipment`). A nutrition figure in a post is a
+claim.
 
-Skip paywalled pages (unless they subscribe), pages without the recipe
-itself (follow to the original), vague content-farm pages, and dishes
-that depend on a banned food.
+Skip pages without the recipe itself (follow to the original), vague
+content-farm pages and dishes that depend on a banned food. Paid
+content: only a recipe they cook, from text they give, never in bulk.
 
 ## Read every ingredient
 
@@ -41,22 +42,23 @@ Sauces, marinades, toppings and ready-made parts included.
 | `soy` | soy sauce, tamari, miso, tofu, tempeh, edamame, vegan substitutes |
 | `eggs` | mayonnaise, fresh pasta, batters, meringue, baked goods |
 
-- A reliable swap is fine: save the recipe with the swapped ingredient
-  ("gluten-free tamari") so the list and checks see it.
+- A reliable swap is fine: save one recipe, the safe one ("gluten-free
+  tamari"), and say "changed from the original".
 - The dish depends on the allergen: pick another.
 - Never relax a restriction because they "probably" tolerate it.
 
 ## Before you plan it
 
-- Open the page; never plan from a search snippet. Save with the
-  canonical `sourceUrl` (recipe-capture.md) and plan by `recipe.id`.
-- A site refuses to open: do not retry it. Use one that opens, or ask
-  them to paste the page.
-- Nothing opens, or the dish is simple: write your own version, no
-  `sourceUrl`, `nutritionEstimated: true`, and say "my own version,
-  not from a site". Never cite a page you did not read.
+- Open the page; never plan from a snippet. Save the canonical
+  `sourceUrl`, the creator and amounts as written; plan by
+  `recipe.id`.
+- A site refuses to open: try once, then use one that opens. Never
+  cite a page you did not read.
+- Nothing opens, or the dish is simple: your own version, no
+  `sourceUrl`, `nutritionEstimated: true`; say "my own version, not
+  from a site".
 
 ## Offering choices
 
-One line each: name, source, minutes, why it fits. Save only what they
-pick or you plan.
+One line each: name, source, minutes, why it fits. Save what they
+pick.

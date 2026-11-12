@@ -1,7 +1,6 @@
 # Planning workflow
 
-A plan is entries on dates: one dinner, a week, a party. Same workflow
-for every horizon.
+A plan is entries on dates: one dinner, a week, a party.
 
 ## 1. Before the draft
 
@@ -12,28 +11,18 @@ for every horizon.
   and the members at home for each slot, unless they say otherwise.
   Regular guests are seated by Droklo.
 - **Time.** `get_context.timeLimits`: start to table. Plan inside it.
-- **Intake.** First visit: `planning.onboarding` as its `howTo` says.
-  Otherwise ask `planning.intake` as worded, all in one reply, then
-  draft. Save answers as each `save` says; unanswered parts go to
-  `update_household {"asked": [key]}`. If they wave the questions away,
-  plan on defaults; a safety question is still asked.
+- **Intake.** As SKILL.md's Questions say. If they wave the questions
+  away, plan on defaults; a safety question is still asked.
 - **The dates answer** (guests, someone away, "nothing different") goes
-  with the write:
-
-```
-add_plan_entries {"entries": [ … ],
-  "datesConfirmed": {"from": "2026-11-09", "to": "2026-11-15",
-    "note": "Guests on Saturday; nothing else different",
-    "guests": [{"name": "Zoe", "restrictions": ["gluten"], "dates": ["2026-11-14"]}]}}
-```
-
+  with the write: `add_plan_entries {"entries": […], "datesConfirmed":
+  {from, to, note, guests, away}}`.
   No entries that turn: `update_household {"datesConfirmed": …}`.
   `guestFollowUp`: when, and how to save it, as its `save` says.
 - **Start day.** Meals that need shopping start after
   `planning.nextShop`; an evening delivery does not feed that evening.
-  Earlier days, tonight included, are planned from what is at home (the
-  stored pantry; one question about fresh food if needed) or left open,
-  and you say which.
+  Earlier days, tonight included, are planned from what is at home
+  (`foodProfile.onHand`, the pantry; one question about fresh food if
+  needed) or left open, and you say which.
 - `get_plan` for the range first: do not plan a slot twice. Deal with
   `planChecks` on saved plans before adding more.
 
@@ -42,6 +31,12 @@ add_plan_entries {"entries": [ … ],
 The server checks restrictions, diets, dislikes, time, targets,
 freshness and variety. Choosing well first is still yours:
 
+- **Sources.** Follow `guidance`'s source rule. Saved only: saved
+  recipes only; too few fit: say how many and ask. Trusted first:
+  search `favoriteSources` (creators too, their language), say whose
+  each dish is. Never a recipe "in the style of" someone.
+- **On hand.** `foodProfile.onHand` first, and say so; used up:
+  `onHand: {"remove": ["chili"]}`.
 - Read ingredients, not titles, for every eater and guest.
 - Fit `foodProfile.equipment` and `foodProfile.cooking`.
 - Most dishes serve the health goal; say how in one line. Save what a
@@ -55,17 +50,11 @@ freshness and variety. Choosing well first is still yours:
 - Follow `weeklyFoodGroupBalance` and `requiredFoods`. Prefer
   `history.liked`, `returnVisit.bringBack`; skip `history.disliked`,
   `keepOut` and the last two weeks' dishes.
-- Fresh meat and fish right after the shop.
 
 ## 3. Recipes: library first
 
-```
-search_recipes {"query": "salmon", "filters": {"maxTotalTimeMin": 30,
-  "recipeCategories": ["complete-meal", "main-course"],
-  "excludeAllergyMarkers": ["nuts", "gluten"]}}
-```
-
-A `main-course` needs a `sideRecipeId`; a side only in `notes` reaches
+`search_recipes` with its filters (time, category; every eater's
+restrictions as `excludeAllergyMarkers`). A `main-course` needs a `sideRecipeId`; a side only in `notes` reaches
 no list. Nothing suitable: web-recipe-search.md, then `save_recipe`
 before planning. An entry with only a `recipeUrl` gives no shopping
 items and no nutrition.
@@ -88,9 +77,10 @@ items and no nutrition.
 
 Pick recipes first so the minutes are real. Run the write with
 `"dryRun": true`, fix what `planChecks` and `dayTotals` show, then show
-the draft: one line per day (day, dish, minutes). End with what a yes
+the draft: one line per day (day, dish, minutes; saved (cooked n
+times) or new from <source>). End with what a yes
 will do: "Say yes and I save these five dinners and make the shopping
-list for Saturday." Takeaway and eating-out nights are entries too.
+list for Saturday." Takeaway and eating-out nights are entries.
 
 Write all entries in one call with a `batch` (`title`, `summary` of
 your reasoning). Undo a batch with `delete_plan_entries {"batchId"}`
@@ -105,7 +95,8 @@ after asking.
   dish. `health`: change the dish, or write how the person settled it
   in `notes` ("pasteurised"); a label they read: `checkedLabels`, on
   their word only. Never call a meal safe for a strict allergy while a
-  label finding stands. `fresh_early`: do what it says.
+  label finding stands. `fresh_early`: do what it says. `source_rule`: say it in one
+  line; swap unless they asked for that dish.
 - `assumptions`: state in one line, ask nothing.
 - `coverage`: one line if asked for those days; no placeholder.
 - `dayTotals`: `partial`, `uncounted` or `sharedFood` rows are not a
@@ -148,8 +139,8 @@ the next stretch.
 - **Two diets:** `foodProfile.sharedTable`. `one-dish`: shared base
   plus `additions`; `separate-dishes`: own entry. The diet is saved on
   the person; `selectedDiets` only for the whole household.
-- **Religious rules:** ask once what it covers; save the diet and
-  `bannedFoods`; read for wine, stock, gelatin.
+- **Religious rules:** ask once what it covers; save the diet (everyone:
+  `selectedDiets`) and `bannedFoods`; read for wine, stock, gelatin.
 - **Baby or small child:** feeding advice belongs to their health
   professional; you may say which dinners a plain portion comes from.
 - **Low energy, illness, newborn:** one cook session for the hard

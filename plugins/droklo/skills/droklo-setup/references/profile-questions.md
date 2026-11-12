@@ -82,11 +82,8 @@ Where and on which days they shop (or delivery day and order
 deadline); is money tight, moderate or flexible, and if tight roughly
 how much a week and what it covers.
 
-```
-update_household {"favoriteStores": ["Lidl"],
-  "foodProfile": {"shoppingDays": ["sat"], "budget": "tight",
-    "weeklyBudget": {"amount": 120, "currency": "EUR", "covers": "food only"}}}
-```
+`favoriteStores`; `foodProfile`: `shoppingDays`, `budget`,
+`weeklyBudget {"amount", "currency", "covers": "food only"}`.
 
 - `budget`: `tight`, `moderate`, `flexible`, `none`; no set amount:
   `"weeklyBudget": "none"`. `units: "us"` for pounds and cups.
@@ -103,7 +100,8 @@ update_household {"favoriteStores": ["Lidl"],
 Who cooks and what makes cooking hard (`foodProfile.cooking`); how
 they like to cook (`cookingSkill`: `beginner`, `home-cook`,
 `confident`); what the kitchen lacks or they love using (`equipment`,
-written "no oven"); leftovers (`love`, `ok`, `avoid`). Routines
+written "no oven"); `measures` ("no scales");
+leftovers (`love`, `ok`, `avoid`). Routines
 without a field go in `householdNotes`.
 
 ## taste
@@ -112,18 +110,16 @@ Cuisines, three or four dishes everyone likes, what nobody likes;
 then spice (`mild`, `medium`, `hot`), variety (`familiar`, `mix`,
 `adventurous`) and anyone's own loves or refusals.
 
-```
-update_household {"foodProfile": {"cuisines": ["Italian"],
-  "favoriteDishes": ["lasagne"], "dislikes": ["coriander"],
-  "spice": "mild", "variety": "mix"}}
-update_family_member {"id": "fm_lily", "likes": ["pancakes"], "dislikes": ["mushrooms"]}
-```
+Household: `foodProfile` (`cuisines`, `favoriteDishes`, `dislikes`,
+`spice`, `variety`); one person: the member's `likes`, `dislikes`.
 
 "Too bland" is a note on one recipe, not a dislike.
 
 ## sources
 
-Where favourite recipes come from. A site:
-`add_favorite_source {"name", "url", "searchHint"}` (a URL only when
-you are certain, else ask). Chefs, books and creators:
-`foodProfile.chefs`.
+Only their saved recipes, trusted creators and sites first, or
+anywhere (`foodProfile.recipeSources`: `saved_only`, `saved_first`,
+`trusted_first`, `anywhere`); their country (`country`). A site or
+creator: `add_favorite_source {"name", "url", "searchHint",
+"language"}` (a URL only when certain; none: `searchHint` says
+where, "Instagram @handle").
