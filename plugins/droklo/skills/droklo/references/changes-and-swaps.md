@@ -31,8 +31,8 @@ archive the member or change the profile.
 - **Cooked on another day:** swap with tonight's dinner, or move it
   to today and offer something for its old day; then `log_meal` with
   its `planEntryId`.
-- **Ate something else:** `log_meal` with `dishName`, no entry; offer
-  to move the planned meal.
+- **Ate something else:** `log_meal`, `dishName`, no entry; say what
+  `stillPlanned.say` says.
 - **A fact they cannot check now** (a use-by date, a freezer count):
   make the change, say what to check before cooking.
 - **Replace a dish:** `update_plan_entry` with the new `dishName`,
