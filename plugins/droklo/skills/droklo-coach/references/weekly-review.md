@@ -8,6 +8,7 @@ In a few lines: who needs attention and why. Then one step at a time.
 list_clients {}                      (last 7 days; or "from", "to")
 get_inbox {"onlyUnread": true}
 get_client_summary {"clientId"}      (a flagged client; "format": "text" for a table)
+mark_client_reviewed {"clientId"}    (once the coach has gone through it)
 ```
 
 Read your notes first (`privateNotes`, `clientNotes`). State the range.

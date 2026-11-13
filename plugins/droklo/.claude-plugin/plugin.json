@@ -1,7 +1,7 @@
 {
   "name": "droklo",
   "displayName": "Droklo",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "description": "Cook with Claude. Droklo makes Claude a personal cook who knows your household: meal plans, recipes, meal logs, shopping lists and nutrition coaching. Bundles the Droklo MCP connector and the droklo, droklo-coach and droklo-setup skills.",
   "author": {
     "name": "Droklo",
