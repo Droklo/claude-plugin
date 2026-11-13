@@ -1,7 +1,8 @@
 # Commenting and answering questions
 
-Comments show in Droklo only: on the client's plan, in the household
-inbox and through their assistant. No email.
+Comments show in Droklo: on the client's plan, in the household inbox
+and through their assistant. Email: only what the result's `emailed`
+says (a link, never the text).
 
 ## The words are the coach's
 

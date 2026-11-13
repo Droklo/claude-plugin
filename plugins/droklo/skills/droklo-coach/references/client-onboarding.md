@@ -10,7 +10,8 @@ next. The first week of meals: first-week.md.
    without numbers saves guidance only.
 2. **Invite.** Ask for the client's email; never invent one.
    `create_client_invite {"email"}` → `invite.url`, `expiresAt`,
-   `delivery`. Droklo does not email it: the coach sends the link.
+   `delivery`, `emailed`. Say what `emailed` says; `false`: the coach
+   sends the link.
    Only that address can accept. A link anyone can use only when the
    coach says so: `{"shareByHand": true}`. A group:
    `{"maxUses": 12}` (2–200). What the client does to join:

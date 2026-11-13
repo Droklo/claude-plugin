@@ -84,8 +84,8 @@ add_comment {"target": {"type": "mealLog", "id": "ml_123"},
 
 ## Coach replies
 
-- Replies arrive in the Droklo inbox (`get_inbox` gives the `url`),
-  never by email. Say so the first time.
+- Replies arrive in the Droklo inbox (`get_inbox` gives the `url`); an
+  email, if one comes, only links there. Say so the first time.
 - `get_context.openQuestions` and `get_inbox {"onlyUnread": true}`
   show new replies; each thread's `about` says which meal and date.
 - Reply with `add_comment {"parentId": <root id>, "body"}`;

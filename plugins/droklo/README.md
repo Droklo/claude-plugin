@@ -1,7 +1,9 @@
 # Droklo plugin for Claude
 
-Connects Claude to [Droklo](https://www.droklo.com), the household nutrition
-system of record, and teaches Claude how to use it. It works on claude.ai, in
+Cook with Claude. This plugin connects Claude to [Droklo](https://www.droklo.com),
+your household's food memory, and teaches Claude how to use it, so Claude
+becomes a personal cook who knows who eats what, every allergy and target, the
+week's plan and the shopping list. It works on claude.ai, in
 the Claude desktop and mobile apps, in Cowork and in Claude Code.
 
 It bundles:

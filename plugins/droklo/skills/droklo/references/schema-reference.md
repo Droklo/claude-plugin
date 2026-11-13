@@ -65,7 +65,8 @@ in `householdNotes`.
 
 `update_household` also takes `setupDone`, `asked`, `onboarded`,
 `datesConfirmed` and `reminderDay`. `household.reminders.email` is true only when
-Droklo can send email.
+the weekly email is on; `eventEmail` when Droklo emails about
+invitations, lists and comments.
 
 ## Plan entries
 
