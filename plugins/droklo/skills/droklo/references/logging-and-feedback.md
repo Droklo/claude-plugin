@@ -21,6 +21,11 @@ Keep log ids for comments.
   else that night: `dishName` without the entry, so the plan is not
   marked eaten as planned. Unplanned: `dishName`, plus
   `recipeId` if in the library.
+- **Recipe link.** A log is tied to its recipe by `recipeId` (or its
+  entry); the app then shows Open recipe on the meal, and the log
+  carries `recipeLink`. To add it later: `update_meal_log {"id",
+  "recipeId"}`. Never write links in `note`; give `recipeLink` in
+  your reply.
 - **When.** The household date it was eaten, from `today`; a future
   date is refused. `eatenAt` only when they give a time. `mealType`
   follows when it was eaten.
