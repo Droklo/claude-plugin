@@ -1,9 +1,9 @@
 # Recipe capture
 
 Turn what they sent (link, post, screenshot, PDF, pasted text, a dish
-told in chat) into `save_recipe`. Droklo stores no images: you read,
-then send text. Save in English; a dish keeps its own name first:
-"Frango com quiabo (chicken with okra)".
+told in chat) into `save_recipe`. You read, then send text: an image
+cannot be a tool argument. Save in English; a dish keeps its own name
+first: "Frango com quiabo (chicken with okra)".
 
 ## What you read
 
@@ -35,6 +35,11 @@ then send text. Save in English; a dish keeps its own name first:
   will not paste now: `name`, `sourceUrl`, their label in `dietTags`,
   nothing more. That is "not written out yet": never plan it; say how
   many wait. Boards and folders become `dietTags`.
+- Their screenshots or photos can stay with the recipe (up to 6):
+  save one recipe with `photo: "add"` and do what `photo.say` says
+  (upload them, or give the person `addUrl`). `photo: "remove"`
+  deletes them. Offer it once; never claim an image is saved before
+  the upload answers.
 - "Made it last night" is `log_meal`. A tip after cooking is
   `add_comment` on the recipe.
 
@@ -54,7 +59,8 @@ then send text. Save in English; a dish keeps its own name first:
 - `sourceUrl`: canonical, https, no tracking parameters; Instagram
   `https://www.instagram.com/p/<code>/`.
 - `instructions`: short numbered steps in your own words.
-- `imageUrl`: a stable public image; never their photo.
+- `imageUrl`: a stable public image link; never their photo (that is
+  `photo: "add"`).
 - `cuisineTag`: lowercase. `dietTags`: their tags, diet codes,
   `gluten-free`, `dairy-free`, `nut-free`.
 
