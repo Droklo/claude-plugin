@@ -27,13 +27,17 @@ Keep log ids for comments.
   "recipeId"}`. Never write links in `note`; give `recipeLink` in
   your reply.
 - **When.** The household date it was eaten, from `today`; a future
-  date is refused. `eatenAt` only when they give a time. `mealType`
-  follows when it was eaten.
-- **Portion.** Left out = the entry's share; `0` = served, not eaten.
+  date is refused. `eatenAt`: `"now"` when they have just eaten,
+  `"HH:MM"` when they say when; not clear: ask once (`timeMissing` in
+  the result says so too). `mealType` follows when it was eaten: a
+  sweet after dinner is a `snack`.
+- **Portion.** Left out = the entry's share; `0` = served, not eaten;
+  double = `2`, half = `0.5`.
 - **Nutrition.** With an entry or recipe, omit it. Otherwise estimate
   a typical portion (`"estimated": true`; `false` only for numbers
-  read in this conversation) or leave it out. Never ask the person for
-  numbers.
+  read in this conversation) or leave it out. Numbers include
+  `fibreG`. Never ask the person for numbers. `fibreMissing` in the
+  result: do what it says.
 - **A reading** (`reading` with `kind`, `value`, `unit` as said, optional
   `timing`; kinds `glucose`, `ketones`,
   `blood-pressure`, `weight`, `other`) goes on that meal's log, not in

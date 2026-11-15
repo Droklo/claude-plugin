@@ -5,7 +5,7 @@ numbers are the coach's: never invent one.
 
 ## What a client carries
 
-`dailyCaloriesKcal`, `dailyProteinG`, `dailyFatG`, `dailyCarbsG`;
+`dailyCaloriesKcal`, `dailyProteinG`, `dailyFatG`, `dailyCarbsG`, `dailyFibreG`;
 `restrictions` (`gluten`, `dairy`, `nuts`, `peanuts`, `sesame`,
 `fish`, `shellfish`, `soy`, `eggs`, `ultra-processed`,
 `cancer-related`); `diet` (`vegetarian`, `vegan`, `pescatarian`,
