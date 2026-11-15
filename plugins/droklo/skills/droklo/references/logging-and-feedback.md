@@ -69,8 +69,9 @@ day with no log is not a bad day. Numbers hidden: none.
 
 `get_context.specialists` empty: say nobody outside the household sees
 the logs. The owner can invite one: ask for the email (never guess),
-`invite_member {"email", "kind": "specialist"}`, read back `delivery`,
-then `set_client_assignments {"membershipId", "familyMemberIds"}` (the
+`invite_member {"email", "kind": "specialist"}`, relay `say` (an owner
+confirms in Droklo first); once the coach joined,
+`set_client_assignments {"membershipId", "familyMemberIds"}` (the
 full list; `[]` removes all and releases locks).
 
 ```
