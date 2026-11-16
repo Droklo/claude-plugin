@@ -69,6 +69,11 @@ threads go too.
 `get_goal_status {"period"}`: relay `say`; never add up yourself. A
 day with no log is not a bad day. Numbers hidden: none.
 
+Progress over time ("am I getting better", "how was spring"):
+`{"history": "3m"}` (`4w`, `6m`, `1y`, `all`; `"to"` ends it earlier,
+`olderTo` is the stretch before). Say the direction from `previous` and
+`readings`; `lowerBound` figures are "at least". The picture: Progress.
+
 ## Ask the coach
 
 `get_context.specialists` empty: say nobody outside the household sees
