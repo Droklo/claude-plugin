@@ -90,7 +90,8 @@ A food a person may in fact have: `restrictionExceptions`.
 
 Recipe `nutritionPerPortion` + `nutritionEstimated`. Log `nutrition`
 (totals eaten) + `estimated`. Member `targets`: `dailyCaloriesKcal`,
-`dailyProteinG`, `dailyFatG`, `dailyCarbsG`, `dailyFibreG`; every
+`dailyProteinG`, `dailyFatG`, `dailyCarbsG`, `dailyFibreG`,
+`dailySaturatedFatG`, `dailySugarsG` (the last two are limits); every
 set of numbers includes `fibreG`; `trainingDays` with
 `trainingTargets` replace them on those days.
 
