@@ -41,8 +41,7 @@ Save on a yes. Taking one back: `delete_plan_entries {"workspaceId",
 
 ## 4. Read the result
 
-- `planChecks`: fix each or tell the coach. `no_shopping_list` is
-  expected: the list follows acceptance.
+- `planChecks`: fix each or tell the coach.
 - `dates_unconfirmed`: nobody said whether those dates are normal.
   Ask the coach what the client told them and pass `datesConfirmed
   {from, to, note}` with the write. Do not answer for the client.
@@ -54,8 +53,8 @@ Save on a yes. Taking one back: `delete_plan_entries {"workspaceId",
 ## 5. The client and the note
 
 The proposal shows in the client's Droklo inbox and their assistant
-raises it next conversation. No email. Accepting puts the meals on
-their shopping list; a coach cannot make their list.
+raises it next conversation. No email. Accepting puts the meals' food
+on their shopping list by itself.
 
 A note is worth it for what only the coach can say (what the week is
 for, what it does not cover, what to buy for a dish without a recipe).

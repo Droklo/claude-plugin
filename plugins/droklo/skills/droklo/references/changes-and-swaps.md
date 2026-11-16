@@ -43,7 +43,7 @@ archive the member or change the profile.
   cooking. If the dish changes, save a variant under its own name
   ("Turkey bolognese"; the same name and `sourceUrl` would overwrite
   the original) and point the entry at it; otherwise a line in `notes`.
-  Untick what did not come. Never put bought food back on a list.
+  Untick what did not come.
 - **Leftovers:** a leftovers meal is its own entry with the original
   `recipeId` and `servings: 0`. Extra for later: raise `servings` on
   the cooking entry, set `leftoversNote`, add the leftovers entry.

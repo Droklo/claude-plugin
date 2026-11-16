@@ -87,8 +87,7 @@ how much a week and what it covers.
 
 - `budget`: `tight`, `moderate`, `flexible`, `none`; no set amount:
   `"weeklyBudget": "none"`. `units: "us"` for pounds and cups.
-- Do not ask which staples they keep: the first shopping list asks
-  once. `pantry` holds only what they volunteer.
+- Do not ask which staples they keep: the shopping list asks once. `pantry` holds only what they volunteer.
 - Order deadlines and second shops: one "Shopping:" line in
   `householdNotes` (keep the existing text).
 - A reminder only when asked: `update_household {"reminderDay":

@@ -103,11 +103,10 @@ after asking.
   whole day; never say someone eats too little from them. A day off
   target: fix with `servings`, `additions` or a snack.
 - `notOnList`: say which dishes add nothing to the list.
-- `shoppingLists`: what the save changed on the shopping list; relay
-  `say`.
+- `shoppingLists`: what the save put on the shopping list; relay `say`.
 
-Then hand the list over in the same turn and report (shopping.md). For
-one meal, offer the list instead.
+Then read the list for those days and report (shopping.md). For one
+meal, offer the list instead.
 
 ## 7. When they come back
 
@@ -130,10 +129,10 @@ the next stretch.
 - **Who cooks:** `cookMemberId`; a rota is one line in `householdNotes`.
 - **Coach proposals** (`proposal` notice, `status: "draft"`): say what
   and when; accept with `accept_proposals {"batchId"}` only when asked;
-  on `shoppingNote` offer a list; decline with `delete_plan_entries`.
+  decline with `delete_plan_entries`.
 - **Away:** leave them out of `attendeeIds`; never archive a traveller.
-- **One more meal in a shopped week:** build on what is left; add the
-  few missing things to the active list.
+- **One more meal in a shopped week:** build on what is left; the list
+  asks only for what is missing.
 - **Batch cooking:** ask session length and storage; two or three
   dishes for two hours; order of work in the first entry's `notes`;
   later meals are leftovers entries.
