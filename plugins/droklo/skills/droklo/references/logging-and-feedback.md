@@ -36,8 +36,8 @@ Keep log ids for comments.
 - **Nutrition.** With an entry or recipe, omit it. Otherwise estimate
   a typical portion (`"estimated": true`; `false` only for numbers
   read in this conversation) or leave it out. Numbers include
-  `fibreG`, and `saturatedFatG` and `sugarsG` when someone has a
-  target for them. Never ask the person for numbers. `fibreMissing` in the
+  `fibreG`, `saturatedFatG` and `sugarsG`. Never ask the person for
+  numbers. `fibreMissing` in the
   result: do what it says.
 - **A reading** (`reading` with `kind`, `value`, `unit` as said, optional
   `timing`; kinds `glucose`, `ketones`,
