@@ -1,121 +1,104 @@
 # Shopping
 
-A list covers a date range. Droklo computes it from planned meals with
-a recipe (eaters, guests, `servings`, `additions`) and keeps manual
-items and ticks. Leftovers entries and unaccepted proposals add
-nothing. Active lists follow the plan and sync with the web app.
+The household has **one shopping list**. Droklo keeps it from today to
+the last planned day: a planned meal with a recipe puts its food on it
+(eaters, guests, `servings`, `additions`), a changed or removed meal
+changes it, a meal that is eaten or whose day is over leaves it.
+Leftovers entries and unaccepted proposals add nothing. You never make,
+date, close or reopen a list; the web app shows the same list live.
 
-## One list per shop
+A tick means **got it**: bought, ordered or already at home. A ticked
+line stays ticked whatever the plan does next. When a meal is added or
+grows after the tick, the list asks only for the rest (`more`).
 
-- Make it in the same turn as a plan of several days; offer it after
-  one meal. Range: first meal the shop feeds to the day before the next
-  shop. Name it after the shop; say when to shop from the stored
-  shopping days, never an invented deadline.
-- Never a second list over dates an active list covers: use it, or
-  move it with `rename_shopping_list {"listId", "from", "to"}` (keeps
-  ticks). A completed or ticked list is never stretched: make a new
-  one (`no_shopping_list` says which).
-- `completedLists`: say in one line which older lists were finished.
-- Several active lists: pick by date range (`activeLists`); ask only
-  if two still fit.
-- Lines with `boughtOn` are bought: never offer or ask about them.
-- `"compact": true` when you only show or tick.
-
-## Read the result
+## Read it
 
 ```
-create_shopping_list {"from": "2026-11-13", "to": "2026-11-15", "name": "Weekend shop"}
+get_shopping_list {"from": "2026-11-16", "to": "2026-11-18", "compact": true}
 ```
 
+- No arguments: the whole list. `from`/`to`: only the meals of those
+  days. `entryIds`: only those meals. A window shows the amounts its
+  meals need; `later` is what later meals need on top.
 - `quantity` is the pack to buy: show as is. `needed` is what the
-  recipes use: quote it when asked how much a dish takes, or for
-  someone who wants grams.
+  recipes use: quote it when asked how much a dish takes.
 - `list.summary` is the count you say, from the latest result.
-- `list.countedFor`: what the list is for and for how many.
-- `notOnList`: link a recipe, add the items by hand, or say which meals
-  they shop for themselves. Never call the list complete otherwise.
-- A planned meal with a recipe goes on a list through the meal, never
-  by typing its ingredients: when a plan result says it is on no list
-  (`no_shopping_list`), stretch the list (`rename_shopping_list`) or
-  make one. If you typed a planned meal's foods anyway, Droklo puts the
-  meal on the list itself and returns `forMeals`: say its `say`.
-- A completed list is the record of a shop. Never re-date or refresh
-  it; for days it does not cover, make a new list.
-- `planChecks` (`fresh_early`): do what it says.
-- `oneMeal`: lines bought for one meal. When money is tight, offer to
-  swap that meal. Never call it a saving in money.
-- `ask.questions`: the one question, as worded, in the reply that
-  hands over the list (`askLater`: waits or is dropped). Then one call:
-
-```
-update_shopping_items {"listId": "sl_weekend",
-  "pantry": "allLikelyAtHome", "except": ["paprika"]}
-```
-
-  Field absent: ask nothing about staples. Someone who does not know
-  their cupboard: `"unsure"` (names, ids or `"allLikelyAtHome"`).
+- `more.got`: some is ticked already; this line is only the rest.
 - `list.atHome`: not to buy, not counted or costed. Close with its
   `check` line. Droklo knows names, not stock.
-- "We're out of oil": `"ranOut": ["olive oil"]` that turn. `noLine`: no
-  planned meal needs it; offer to add it by hand.
-- `pantryHint` after ticking: ticks hold for this list only; "always
-  have these" is `pantry`.
+- `notOnList`: meals with no saved recipe add nothing. Link a recipe,
+  add the items by hand, or say they shop for those themselves.
+- Lines with `boughtOn` are bought: never offer or ask about them.
+
+## Hand it over for a shop
+
+After saving a plan of several days, or when they say they are going
+shopping, call `create_shopping_list {"from", "to"}` with the days this
+shop feeds (first meal to the day before the next shop). It makes no
+second list: it returns the one list, tells the other logins by mail
+(`emailed`), and carries what to say and ask:
+
+- `standing.say`: relay it. `ask.questions`: the one question, as
+  worded (`askLater`: waits or is dropped). The staples answer is one
+  call: `update_shopping_items {"pantry": "allLikelyAtHome", "except":
+  ["paprika"]}`; someone who does not know their cupboard: `"unsure"`.
+- `planChecks` (`fresh_early`): do what it says. `oneMeal`: lines
+  bought for one meal; when money is tight, offer to swap that meal.
+- Say when to shop from the stored shopping days, never an invented
+  deadline. For one meal, offer the list instead of handing it over.
 
 Yours to add: the deciding words in the item name ("gluten-free
 tamari", "halal chicken") and, for an allergy, coeliac disease or a
 religious rule, one line naming every item whose label matters.
 
-**Stores and days:** `"where": [{"label": "Market", "ids": […]}]`
-(`null` clears). Use it when they name two stores or days; group by it.
-
-**Show it short:** by aisle, amounts as given. Long list:
-`summary`, the link, the few items worth a remark. Paste only from
-`export_shopping_list`.
-
-**Paper and people without a login:** `"format": "print"` for paper
-(give the text itself to someone who cannot print), `"format": "text"`
-for a message. People in `readers.withoutLogin` get the text, never the
-link.
-
-Once they left with a list, later additions go in a new list. A remade
-list: say the old link is dead.
+**Show it short:** by aisle, amounts as given. Long list: `summary`,
+the link, the few items worth a remark. Paste only from
+`export_shopping_list` (`"format": "print"` for paper, `"text"` for a
+message). People in `readers.withoutLogin` get the text, never the link.
 
 ## Change items
 
 `update_shopping_items` takes every op in one call:
 
 ```
-update_shopping_items {"listId": "sl_weekend",
+update_shopping_items {
   "add": [{"name": "Milk", "quantityText": "2 l", "category": "dairy"}],
   "update": [{"id": "si_rice", "patch": {"quantityText": "1 kg"}}],
   "remove": ["si_ghee"], "check": ["si_eggs"]}
 ```
 
 - "I bought the milk": match names to ids; ask if several match.
-  "Take off the ghee": `remove` by id, then confirm from `changed`.
-- A tick means bought: in the basket, paid for or ordered. Shop done or order placed: `set_shopping_list_status {"status": "completed",
-  "checkAll": true}`, or `update_shopping_items {"checkAll": true,
-  "uncheck": [what the store lacked]}`. Delivery came short: untick
-  what did not come. `undo` puts ticks back.
-- Hand edits survive refreshes (`edited`). Removed lines stay off until
-  a new meal needs them (`changes.keptOff`): say so.
+- "I bought everything": `{"checkAll": true}`; all but a few:
+  `{"checkAll": true, "uncheck": [ids]}`. Nothing else ends a shop.
+  A delivery that came short: untick what did not come.
+- "I only shopped for today": `{"check": [ids], "forDays": {"from",
+  "to"}}` or `"forMeals": [entryIds]`. A line later meals need too
+  stays on the list for the rest.
+- Something to buy that no meal needs (coffee, bin bags): `add`. It
+  starts the list when there is none.
+- Never type a planned meal's ingredients: they are on the list. If
+  you did, the result's `forMeals.say` says so.
+- "We always have these": `pantry`. "We're out of oil": `"ranOut":
+  ["olive oil"]` that turn. `noLine`: no planned meal needs it; offer
+  to add it by hand.
+- Two stores or days: `"where": [{"label": "Market", "ids": […]}]`.
+- Hand edits survive plan changes (`edited`). Removed lines stay off
+  until a new meal needs them (`changes.keptOff`): say so.
 - On an error nothing was applied: fix and resend the whole call.
 
 ## When the plan changes
 
-Plan tools refresh the lists themselves (`shoppingLists`). Relay `say` with the `url`. Name each `recheck` item as `say` words it. Call
-`refresh_shopping_list` only when a planned recipe or a member changed;
-rewrite `changes.reword` lines. Never re-buy after shopping: ticked
-and `boughtOn` lines are bought.
+Plan tools update the list themselves and return `shoppingLists`:
+relay `say` with the `url`. Call `refresh_shopping_list` only when a
+planned recipe or a member changed; rewrite `changes.reword` lines.
+Never re-buy after shopping: ticked and `boughtOn` lines are bought.
 
 ## The shop did not happen
 
 No blame, no why. Ask one question: when the next shop is. Offer to
 move the meals before it (`move_plan_entry` only to days they agree;
-act on `dependents`, `notesToReview`), then re-date the list to its
-meals' days, never the shop day. Save the home-food meal they take
-for tonight; give the link. Part bought: tick it first.
-`shop.state: "unknown"`: follow `shop.say`.
+act on `dependents`, `notesToReview`); the list follows the moves. Save
+the home-food meal they take for tonight. Part bought: tick it first.
 
 ## Budget
 
@@ -123,29 +106,31 @@ Droklo knows no prices. It keeps `foodProfile.weeklyBudget` and your
 estimate, and says when the estimate is over.
 
 1. Estimate the to-buy items from usual prices where they shop.
-2. `set_shopping_list_estimate {"listId", "amount": 135, "currency":
-   "EUR", "note": "Rough guess; fish and beef are a third."}`.
+2. `set_shopping_list_estimate {"amount": 135, "currency": "EUR",
+   "note": "Rough guess; fish and beef are a third."}`.
 3. Say it as a guess with what it covers: "about 135 for the six
    dinners; I can't see prices."
 4. `budget.overBudget: true`: say `overBy` and offer the two or three
    swaps that save most; after a yes change the plan and re-estimate.
-   Otherwise say what is `left` for what else the budget covers. "Within
-   budget" only when the figure covers everything the budget pays for.
+   Otherwise say what is `left`. "Within budget" only when the figure
+   covers everything the budget pays for.
 
-Real total: `{"listId", "actual": 142}`; it anchors the next guess. "No
-set budget": save `"weeklyBudget": "none"`. Only a level (`"tight"`):
-name the costliest items and a cheaper swap each; do not ask for an
-amount twice.
+Real total: `{"actual": 142}`; it anchors the next guess. "No set
+budget": save `"weeklyBudget": "none"`. Only a level (`"tight"`): name
+the costliest items and a cheaper swap each; do not ask for an amount
+twice.
 
 ## Units
 
 `foodProfile.units: "us"` shows ounces, pounds, quarts: set it when
 someone asks for pounds or cups.
 
-## Finish, rename, delete
+## Earlier lists
 
-`set_shopping_list_status`: `changed: null` = already so.
-`delete_shopping_list`: ask first, suggest archiving.
+`list_shopping_lists` also shows completed lists from before there was
+one list. They are records: what was ticked on them counts as bought.
+Leave them alone. `set_shopping_list_status`, `rename_shopping_list`
+dates and `delete_shopping_list` are never needed for a shop.
 
 ## Hand off to a store
 Only with a grocery service's tools: unticked, non-pantry items without

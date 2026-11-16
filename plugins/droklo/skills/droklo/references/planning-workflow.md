@@ -103,10 +103,11 @@ after asking.
   whole day; never say someone eats too little from them. A day off
   target: fix with `servings`, `additions` or a snack.
 - `notOnList`: say which dishes add nothing to the list.
-- `no_shopping_list`: do what the message says.
+- `shoppingLists`: what the save changed on the shopping list; relay
+  `say`.
 
-Then make the list in the same turn and report (shopping.md). For one
-meal, offer the list instead.
+Then hand the list over in the same turn and report (shopping.md). For
+one meal, offer the list instead.
 
 ## 7. When they come back
 
