@@ -44,7 +44,7 @@ save_metrics {"metrics": [
 - `metric` by name: weight, body fat, steps, distance, calories burned,
   active calories, sleep, sleep score, resting heart rate, glucose,
   ketones, LDL, water… A value outside the metric's range is refused:
-  check the unit (pass `unit` when they give pounds, miles or mg/dL:
+  check the unit (give `unit` when they give pounds, miles or mg/dL:
   it is converted).
 - Record only what the person gave or asked to keep. Do not interpret
   a health number or reassure.

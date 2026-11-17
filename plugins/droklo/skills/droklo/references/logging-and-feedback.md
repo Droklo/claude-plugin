@@ -43,7 +43,7 @@ Keep log ids for comments.
   `timing`; kinds `glucose`, `ketones`,
   `blood-pressure`, `weight`, `other`) goes on that meal's log, not in
   the note, for one person; alone is fine. Do not interpret or
-  reassure. Pass on `readingSaved` (who sees it). A number that is
+  reassure. Relay `readingSaved` (who sees it). A number that is
   not tied to a meal (weight, steps, sleep) goes through `save_metrics`:
   [tracking.md](tracking.md).
 

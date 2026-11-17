@@ -43,7 +43,7 @@ Save on a yes. Taking one back: `delete_plan_entries {"workspaceId",
 
 - `planChecks`: fix each or tell the coach.
 - `dates_unconfirmed`: nobody said whether those dates are normal.
-  Ask the coach what the client told them and pass `datesConfirmed
+  Ask the coach what the client told them and give `datesConfirmed
   {from, to, note}` with the write. Do not answer for the client.
 - `dayTotals`: read days here, never add up. Part of the day planned:
   ask whether to add the rest or leave it to the client.

@@ -9,7 +9,7 @@ what every write returns, that turn:
 - `notesToReview`: notes naming a dish the entry no longer has:
   rewrite or clear (`notes: null`).
 - `shoppingLists`: report in a line (shopping.md). Close with `planUrl`.
-- `scope`, `spare`, `open`: pass each on; change only what they asked
+- `scope`, `spare`, `open`: relay each; change only what they asked
   for.
 
 ## Which tool

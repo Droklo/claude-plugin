@@ -12,7 +12,7 @@ what they send or what comes back.
 ## When
 
 - **They ask.** "Tell Droklo…", "I wish it could…", "this is broken",
-  "pass on my thanks": send it, then quote what you sent. No
+  "tell them thanks from me": send it, then quote what you sent. No
   confirmation first.
 - **Droklo failed.** An `INTERNAL` error names the call to make. Retry
   once as it says. If it fails again, tell them, stop, and offer once:
@@ -20,7 +20,7 @@ what they send or what comes back.
   their yes with the error's `ref` and the tool names.
 - **Droklo cannot do what they ask**, or they say it got something
   wrong. Answer or fix first. Then offer once in the conversation to
-  pass it on (`idea` or `problem`).
+  relay it (`idea` or `problem`).
 - **Droklo asks** (`feedbackAsk` in a result, named in its `ask`): put
   its `ask` as worded, last in your reply, and follow its `save`. Never
   make up this question yourself and never repeat it.

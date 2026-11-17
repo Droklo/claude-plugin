@@ -100,7 +100,7 @@ apply_template {"templateId", "clientIds": [...], "startDate": "2026-11-16",
 - Preview every time. Show per client: `wouldChange`, `wouldLock`,
   each day against their level (`days[].verdict`) and every finding
   (`restriction`, `target`, `over_time`).
-- A client at another level: pass `targetKcal`; the result's `scale`
+- A client at another level: give `targetKcal`; the result's `scale`
   says how the week was scaled. Shared household meals keep the
   recipe's numbers; the portion is in the entry notes.
 - `householdMeals` proposes those meals for the whole household and

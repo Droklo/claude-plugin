@@ -4,7 +4,7 @@ Recipes in the coach's practice workspace are readable by every
 client household (`owner.kind: "practice"`, `editable: false`). A
 template's week uses only these.
 
-- The practice id: `list_workspaces` → `kind: "practice"`. Pass it as
+- The practice id: `list_workspaces` → `kind: "practice"`. Give it as
   `workspaceId` to `search_recipes`, `save_recipe`, `get_recipe`,
   `delete_recipe`. Only the practice owner edits.
 - **Add:** read the page, text or photo yourself; search first and
