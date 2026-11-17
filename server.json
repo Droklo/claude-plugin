@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Droklo/droklo",
+  "title": "Droklo",
+  "description": "Shared household food memory: targets, foods to avoid, recipes, meal plan and a live shopping list.",
+  "version": "0.2.53",
+  "websiteUrl": "https://www.droklo.com",
+  "repository": {
+    "url": "https://github.com/Droklo/claude-plugin",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://www.droklo.com/icon.png",
+      "mimeType": "image/png",
+      "sizes": ["512x512"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://www.droklo.com/api/mcp"
+    }
+  ]
+}
